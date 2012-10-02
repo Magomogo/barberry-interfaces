@@ -1,0 +1,12 @@
+{
+    "name": "barberry/interfaces",
+    "authors": [
+        {
+            "name": "Maxim Gnatenko",
+            "email": "maxim@xiag.ch"
+        }
+    ],
+    "autoload": {
+        "psr-0": {"Barberry": "src/"}
+    }
+}
