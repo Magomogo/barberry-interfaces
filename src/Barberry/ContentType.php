@@ -96,7 +96,7 @@ class ContentType {
         } else {
             $magic_mime_path = __DIR__ . '/ContentType/magic.mime.mgc';
         }
-        $finfo = new finfo(
+        $finfo = new \finfo(
             FILEINFO_MIME ^ FILEINFO_MIME_ENCODING,
             $magic_mime_path
         );
