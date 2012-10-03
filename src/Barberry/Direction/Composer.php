@@ -42,14 +42,19 @@ class Composer implements ComposerInterface
 \$this->command = $newCommandPhp
         \$this->command->configure(\$commandString);
         if (!\$this->command->conforms(\$commandString)) {
-            throw new Plugin_AmbiguousCommandException(\$commandString);
+            throw new Exception\AmbiguousPluginCommand(\$commandString);
         }
 PHP;
         }
 
         return <<<PHP
 <?php
-class {$className}Direction extends Direction_Abstract {
+namespace Barberry\Direction;
+use Barberry;
+use Barberry\Exception;
+use Barberry\Plugin;
+
+class {$className}Direction extends DirectionAbstract {
     protected function init(\$commandString = null) {
         $converterInitialization
         $commandInitialization
