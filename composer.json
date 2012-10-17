@@ -4,6 +4,10 @@
         {
             "name": "Maxim Gnatenko",
             "email": "maxim@xiag.ch"
+        },
+        {
+            "name": "Andrew Kevich",
+            "email": "kevich@xiag.ch"
         }
     ],
     "autoload": {
