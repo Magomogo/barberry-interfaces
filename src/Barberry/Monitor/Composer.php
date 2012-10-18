@@ -23,8 +23,8 @@ class Composer implements ComposerInterface
     {
         return <<<PHP
 <?php
-namespace Barberry\Monitor;
-use Barberry\Plugin\{$pluginName}\Monitor;
+namespace Barberry\\Monitor;
+use Barberry\\Plugin\\{$pluginName}\\Monitor;
 
 class {$pluginName}Monitor extends Monitor {
     public function __construct() {
