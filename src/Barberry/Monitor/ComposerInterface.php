@@ -3,5 +3,5 @@ namespace Barberry\Monitor;
 
 interface ComposerInterface
 {
-    public function writeClassDeclaration($className, $newMonitorPhp);
+    public function writeClassDeclaration($pluginName, $constructorPhpCode);
 }

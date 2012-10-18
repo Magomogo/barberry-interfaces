@@ -10,25 +10,25 @@ class Composer implements ComposerInterface
         $this->monitorDirectory = $monitorDirectory;
     }
 
-    public function writeClassDeclaration($className, $newMonitorPhp) {
+    public function writeClassDeclaration($pluginName, $constructorPhpCode) {
         file_put_contents(
-            $this->monitorDirectory . $className . '.php',
-            self::classCode($className, $newMonitorPhp)
+            $this->monitorDirectory . $pluginName . '.php',
+            self::classCode($pluginName, $constructorPhpCode)
         );
     }
 
 //--------------------------------------------------------------------------------------------------
 
-    private static function classCode($className, $newMonitorPhp)
+    private static function classCode($pluginName, $constructorPhpCode)
     {
         return <<<PHP
 <?php
 namespace Barberry\Monitor;
-use Barberry\Plugin;
+use Barberry\Plugin\{$pluginName}\Monitor;
 
-class {$className}Monitor {
-    protected function __construct() {
-        $newMonitorPhp;
+class {$pluginName}Monitor extends Monitor {
+    public function __construct() {
+        $constructorPhpCode;
     }
 }
 PHP;
