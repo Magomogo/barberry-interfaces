@@ -51,7 +51,7 @@ PHP;
         }
 
         $converterInitialization = rtrim($newConverterPhp, ';');
-        $contentTypeConstructor = "ContentType::byString('$destinationContentType')";
+        $contentTypeConstructor = "new ContentType('$destinationContentType')";
 
         return <<<PHP
 <?php
