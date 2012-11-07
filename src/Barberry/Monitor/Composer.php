@@ -32,7 +32,7 @@ use Barberry\\Plugin\\{$pluginName}\\Monitor;
 class {$pluginName}Monitor extends Monitor {
     public function __construct() {
         $constructorPhpCode
-        \$this->configure('$tempDir')
+        \$this->configure('$tempDir');
     }
 }
 PHP;
