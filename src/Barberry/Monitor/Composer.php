@@ -12,16 +12,18 @@ class Composer implements ComposerInterface
         $this->tempWritableDirectory = $tempWritableDirectory;
     }
 
-    public function writeClassDeclaration($pluginName, $constructorPhpCode)
+    public function writeClassDeclaration($pluginName, $constructorPhpCode = null)
     {
         file_put_contents(
             $this->monitorDirectory . $pluginName . '.php',
-            self::classCode($pluginName, $constructorPhpCode, $this->tempWritableDirectory)
+            self::classCode($pluginName, $this->tempWritableDirectory, $constructorPhpCode)
         );
     }
 
-    private static function classCode($pluginName, $constructorPhpCode, $tempDir)
+    private static function classCode($pluginName, $tempDir, $constructorPhpCode)
     {
+        $constructorPhpCode = $constructorPhpCode ? rtrim($constructorPhpCode, ';') . ';' : '';
+
         return <<<PHP
 <?php
 namespace Barberry\\Monitor;
@@ -29,7 +31,7 @@ use Barberry\\Plugin\\{$pluginName}\\Monitor;
 
 class {$pluginName}Monitor extends Monitor {
     public function __construct() {
-        $constructorPhpCode;
+        $constructorPhpCode
         \$this->configure($tempDir)
     }
 }
