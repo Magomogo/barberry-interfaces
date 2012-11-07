@@ -5,7 +5,7 @@ interface InterfaceCommand
 {
     /**
      * @param string $commandString
-     * @return InterfaceCommand
+     * @return self
      */
     public function configure($commandString);
 

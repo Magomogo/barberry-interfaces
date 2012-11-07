@@ -5,7 +5,7 @@ interface InterfaceMonitor
 {
     /**
      * @param string $tempDirectory
-     * @return void
+     * @return self
      */
     public function configure($tempDirectory);
 

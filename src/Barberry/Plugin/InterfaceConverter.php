@@ -8,7 +8,7 @@ interface InterfaceConverter
     /**
      * @param ContentType $targetContentType
      * @param string $tempPath
-     * @return void
+     * @return self
      */
     public function configure(ContentType $targetContentType, $tempPath);
 
