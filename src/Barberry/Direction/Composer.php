@@ -64,7 +64,7 @@ use Barberry\ContentType;
 class {$className}Direction extends DirectionAbstract {
     protected function init(\$commandString = null) {
         \$this->converter = $converterInitialization;
-        \$this->converter->configure($contentTypeConstructor, $tempDirectory);
+        \$this->converter->configure($contentTypeConstructor, '$tempDirectory');
         $commandInitialization
     }
 }
