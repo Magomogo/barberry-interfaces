@@ -1,7 +1,8 @@
 <?php
 namespace Barberry\Plugin;
 
-interface InterfaceCommand {
+interface InterfaceCommand
+{
     /**
      * @param string $commandString
      * @return InterfaceCommand

@@ -1,30 +1,33 @@
 <?php
 namespace Barberry\Direction;
+
 use Barberry\ContentType;
 
 class Composer implements ComposerInterface
 {
     private $directionDirectory;
+    private $tempWritableDirectory;
 
-    public function __construct($directionDirectory)
+    public function __construct($directionDirectory, $tempWritableDirectory)
     {
         $this->directionDirectory = $directionDirectory;
+        $this->tempWritableDirectory = $tempWritableDirectory;
     }
 
     public function writeClassDeclaration(ContentType $source, ContentType $destination, $newConverterPhp,
-        $newCommandPhp = null
-    ) {
+        $newCommandPhp = null)
+    {
         file_put_contents(
             $this->directionDirectory . self::directionName($source, $destination) . '.php',
             self::classCode(
                 self::directionName($source, $destination),
                 $newConverterPhp,
+                $destination,
+                $this->tempWritableDirectory,
                 $newCommandPhp
             )
         );
     }
-
-//--------------------------------------------------------------------------------------------------
 
     private static function directionName(ContentType $source, ContentType $destination)
     {
@@ -32,9 +35,9 @@ class Composer implements ComposerInterface
             . 'To' . ucfirst($destination->standartExtention());
     }
 
-    private static function classCode($className, $newConverterPhp, $newCommandPhp = null)
+    private static function classCode($className, $newConverterPhp, ContentType $destinationContentType, $tempDirectory,
+        $newCommandPhp = null)
     {
-        $converterInitialization = '$this->converter = ' . rtrim($newConverterPhp, ';') . ';';
         $commandInitialization = null;
         if (!is_null($newCommandPhp)) {
             $newCommandPhp = rtrim($newCommandPhp, ';') . ';';
@@ -47,16 +50,21 @@ class Composer implements ComposerInterface
 PHP;
         }
 
+        $converterInitialization = rtrim($newConverterPhp, ';');
+        $contentTypeConstructor = "ContentType::byString('$destinationContentType')";
+
         return <<<PHP
 <?php
 namespace Barberry\Direction;
 use Barberry;
 use Barberry\Exception;
 use Barberry\Plugin;
+use Barberry\ContentType;
 
 class {$className}Direction extends DirectionAbstract {
     protected function init(\$commandString = null) {
-        $converterInitialization
+        \$this->converter = $converterInitialization;
+        \$this->converter->configure($contentTypeConstructor, $tempDirectory);
         $commandInitialization
     }
 }

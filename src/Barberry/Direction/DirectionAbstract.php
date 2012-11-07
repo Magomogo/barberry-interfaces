@@ -1,8 +1,10 @@
 <?php
 namespace Barberry\Direction;
+
 use Barberry\Plugin;
 
-abstract class DirectionAbstract {
+abstract class DirectionAbstract
+{
     /**
      * @var null|Plugin\InterfaceCommand
      */
@@ -13,13 +15,15 @@ abstract class DirectionAbstract {
      */
     protected $converter;
 
-    public function __construct($commandString = null) {
+    public function __construct($commandString = null)
+    {
         $this->init($commandString);
     }
 
     abstract protected function init($commandString = null);
 
-    public function convert($bin) {
+    public function convert($bin)
+    {
         return $this->converter->convert($bin, $this->command);
     }
 }

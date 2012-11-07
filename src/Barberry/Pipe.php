@@ -2,10 +2,12 @@
 
 namespace Barberry;
 
-class Pipe {
+class Pipe
+{
     private $command;
 
-    public function __construct($command) {
+    public function __construct($command)
+    {
         $this->command = $command;
     }
 
@@ -16,14 +18,15 @@ class Pipe {
      * @param null|string $binaryString to put into STDIN
      * @return string read from STDOUT
      */
-    public function process($binaryString = null) {
+    public function process($binaryString = null)
+    {
         $pipes = null;
         $proc = proc_open(
             $this->command,
             array(
-               0 => array("pipe", 'r'),  // stdin
-               1 => array("pipe", "w"),  // stdout
-               2 => array("pipe", "w") // stderr
+                0 => array("pipe", 'r'), // stdin
+                1 => array("pipe", "w"), // stdout
+                2 => array("pipe", "w") // stderr
             ),
             $pipes,
             null,
@@ -51,8 +54,7 @@ class Pipe {
 
             return $output;
 
-        }
-        else {
+        } else {
             throw new Pipe\Exception('Cannot proc_open(' . $this->command . ')');
         }
     }

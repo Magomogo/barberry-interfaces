@@ -1,7 +1,14 @@
 <?php
 namespace Barberry\Plugin;
 
-interface InterfaceMonitor {
+interface InterfaceMonitor
+{
+    /**
+     * @param string $tempDirectory
+     * @return void
+     */
+    public function configure($tempDirectory);
+
     /**
      * @return array of error messages
      */
