@@ -14,12 +14,12 @@ class ContentType
 
     private static $videoExtensions = array(
         'flv' => 'video/x-flv',
-        'webm' => 'video/webm',
+        //'webm' => 'video/webm',
         'wmv' => 'video/x-ms-wmv',
         'mpg' => 'video/mpeg',
         'mpeg' => 'video/mpeg',
         'avi' => 'video/x-msvideo',
-        'mkv' => 'video/x-matroska',
+        //'mkv' => 'video/x-matroska',
         'mp4' => 'video/mp4',
         'mov' => 'video/quicktime',
         'qt' => 'video/quicktime',
