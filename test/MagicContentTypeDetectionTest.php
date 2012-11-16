@@ -1,19 +1,21 @@
 <?php
 namespace Barberry;
 
-class MagicContentTypeDetectionTest extends \PHPUnit_Framework_TestCase {
-
+class MagicContentTypeDetectionTest extends \PHPUnit_Framework_TestCase
+{
     /**
      * @dataProvider filesAndItsContentTypes
      */
-    public function testPortableDocumentFormat($expectedContentType, $fileName) {
+    public function testPortableDocumentFormat($expectedContentType, $fileName)
+    {
         $this->assertEquals(
             $expectedContentType,
             ContentType::byString(file_get_contents(__DIR__ . '/data/' . $fileName))
         );
     }
 
-    public static function filesAndItsContentTypes() {
+    public static function filesAndItsContentTypes()
+    {
         return array(
             array(ContentType::gif(), '1x1.gif'),
             array(ContentType::ott(), 'document1.ott'),
@@ -24,6 +26,7 @@ class MagicContentTypeDetectionTest extends \PHPUnit_Framework_TestCase {
             array(ContentType::odt(), 'document1.odt'),
             array(ContentType::pdf(), 'sample.pdf'),
             array(ContentType::url(), 'xiag.url'),
+            array(ContentType::flv(), 'video.flv')
         );
     }
 }

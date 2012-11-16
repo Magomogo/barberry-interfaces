@@ -3,52 +3,82 @@ namespace Barberry;
 
 class ContentType
 {
-    private static $extensionMap = array(
+    private $contentTypeString;
+
+    private static $imageExtensions = array(
         'jpg' => 'image/jpeg',
         'jpeg' => 'image/jpeg',
         'gif' => 'image/gif',
-        'png' => 'image/png',
+        'png' => 'image/png'
+    );
+
+    private static $videoExtensions = array(
         'flv' => 'video/x-flv',
-        'webm' => 'video/webm',
+        //'webm' => 'video/webm',
         'wmv' => 'video/x-ms-wmv',
         'mpg' => 'video/mpeg',
         'mpeg' => 'video/mpeg',
         'avi' => 'video/x-msvideo',
-        'mkv' => 'video/x-matroska',
+        //'mkv' => 'video/x-matroska',
         'mp4' => 'video/mp4',
         'mov' => 'video/quicktime',
         'qt' => 'video/quicktime',
-        'ogv' => 'video/ogg',
-        '3gp' => 'video/3gpp',
-        '_3gp' => 'video/3gpp',
-        'json' => 'application/json',
-        'php' => 'text/x-php',
+        'ogv' => 'application/ogg',
+        '3gp' => 'video/3gpp'
+    );
+
+    private static $documentExtensions = array(
         'ott' => 'application/vnd.oasis.opendocument.text-template',
         'odt' => 'application/vnd.oasis.opendocument.text',
         'ots' => 'application/vnd.oasis.opendocument.spreadsheet-template',
         'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
-        'txt' => 'text/plain',
         'xls' => 'application/vnd.ms-excel',
         'doc' => 'application/vnd.ms-word',
-        'pdf' => 'application/pdf',
-        'url' => 'text/url',
+        'pdf' => 'application/pdf'
     );
 
-    private $contentTypeString;
+    private static $textExtensions = array(
+        'json' => 'application/json',
+        'php' => 'text/x-php',
+        'txt' => 'text/plain',
+        'url' => 'text/url'
+    );
+
+    private function __construct($contentTypeString)
+    {
+        $this->contentTypeString = $contentTypeString;
+    }
+
+    public function __toString()
+    {
+        return $this->contentTypeString;
+    }
 
     public static function __callStatic($method, $args)
     {
-        if (isset(self::$extensionMap[$method])) {
+        if (self::getContentTypeByExtension($method)) {
             return self::byExtention($method);
         }
-
         throw new \Exception("Undefined method " . get_called_class() . "->{$method}() called.");
+    }
+
+    public static function availableExtensions()
+    {
+        return array_merge(
+            self::$imageExtensions, self::$videoExtensions, self::$documentExtensions, self::$textExtensions
+        );
+    }
+
+    public static function getContentTypeByExtension($ext)
+    {
+        $extensions = self::availableExtensions();
+        return isset($extensions[$ext]) ? $extensions[$ext] : null;
     }
 
     public static function byExtention($ext)
     {
-        if (isset(self::$extensionMap[$ext])) {
-            return new self(self::$extensionMap[$ext]);
+        if (self::getContentTypeByExtension($ext)) {
+            return new self(self::getContentTypeByExtension($ext));
         }
         throw new ContentType\Exception($ext);
     }
@@ -57,22 +87,16 @@ class ContentType
     {
         $contentTypeString = self::contentTypeString($content);
 
-        $ext = array_search($contentTypeString, self::$extensionMap);
-
-        if (false !== $ext) {
+        $ext = array_search($contentTypeString, self::availableExtensions());
+        if ($ext) {
             return self::byExtention($ext);
         }
         throw new ContentType\Exception($contentTypeString);
     }
 
-    private function __construct($contentTypeString)
-    {
-        $this->contentTypeString = $contentTypeString;
-    }
-
     public function standartExtention()
     {
-        foreach (self::$extensionMap as $ext => $contentTypeStringArray) {
+        foreach (self::availableExtensions() as $ext => $contentTypeStringArray) {
             if ($this->contentTypeString === $contentTypeStringArray) {
                 return $ext;
             }
@@ -80,22 +104,37 @@ class ContentType
         throw new ContentType\Exception($this->contentTypeString);
     }
 
-    public function __toString()
+    public static function isImage($fileContent)
     {
-        return $this->contentTypeString;
+        $contentMatch = array_search(
+            self::contentTypeString($fileContent), self::$imageExtensions
+        );
+        return $contentMatch ? true : false;
     }
 
-    public function isImage()
+    public static function isVideo($fileContent)
     {
-        return (preg_match('/^image\\//i', $this->contentTypeString));
+        $contentMatch = array_search(
+            self::contentTypeString($fileContent), self::$videoExtensions
+        );
+        return $contentMatch ? true : false;
     }
 
-    public function isVideo()
+    public static function isDocument($fileContent)
     {
-        return (preg_match('/^video\\//i', $this->contentTypeString));
+        $contentMatch = array_search(
+            self::contentTypeString($fileContent), self::$documentExtensions
+        );
+        return $contentMatch ? true : false;
     }
 
-//--------------------------------------------------------------------------------------------------
+    public static function isText($fileContent)
+    {
+        $contentMatch = array_search(
+            self::contentTypeString($fileContent), self::$textExtensions
+        );
+        return $contentMatch ? true : false;
+    }
 
     private static function contentTypeString($content)
     {
