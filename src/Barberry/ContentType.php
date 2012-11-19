@@ -70,7 +70,7 @@ class ContentType
         $this->contentTypeString = $contentTypeString;
     }
 
-    public function standartExtention()
+    public function standardExtention()
     {
         foreach (self::$extensionMap as $ext => $contentTypeStringArray) {
             if ($this->contentTypeString === $contentTypeStringArray) {
@@ -83,16 +83,6 @@ class ContentType
     public function __toString()
     {
         return $this->contentTypeString;
-    }
-
-    public function isImage()
-    {
-        return (preg_match('/^image\\//i', $this->contentTypeString));
-    }
-
-    public function isVideo()
-    {
-        return (preg_match('/^video\\//i', $this->contentTypeString));
     }
 
 //--------------------------------------------------------------------------------------------------
