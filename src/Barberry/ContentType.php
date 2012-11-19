@@ -70,7 +70,7 @@ class ContentType
         $this->contentTypeString = $contentTypeString;
     }
 
-    public function standardExtention()
+    public function standardExtension()
     {
         foreach (self::$extensionMap as $ext => $contentTypeStringArray) {
             if ($this->contentTypeString === $contentTypeStringArray) {

@@ -31,8 +31,8 @@ class Composer implements ComposerInterface
 
     private static function directionName(ContentType $source, ContentType $destination)
     {
-        return ucfirst($source->standardExtention())
-            . 'To' . ucfirst($destination->standardExtention());
+        return ucfirst($source->standardExtension())
+            . 'To' . ucfirst($destination->standardExtension());
     }
 
     private static function classCode($className, $newConverterPhp, ContentType $destinationContentType, $tempDirectory,
@@ -51,7 +51,7 @@ PHP;
         }
 
         $converterInitialization = rtrim($newConverterPhp, ';');
-        $contentTypeConstructor = "ContentType::byExtention('{$destinationContentType->standardExtention()}')";
+        $contentTypeConstructor = "ContentType::byExtention('{$destinationContentType->standardExtension()}')";
 
         return <<<PHP
 <?php
