@@ -24,6 +24,9 @@ class MagicContentTypeDetectionTest extends \PHPUnit_Framework_TestCase {
             array(ContentType::odt(), 'document1.odt'),
             array(ContentType::pdf(), 'sample.pdf'),
             array(ContentType::url(), 'xiag.url'),
+            array(ContentType::ogv(), 'test.ogv'),
+            array(ContentType::webm(), 'test.webm'),
+            array(ContentType::mkv(), 'test.mkv')
         );
     }
 }
