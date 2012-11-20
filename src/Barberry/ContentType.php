@@ -18,7 +18,7 @@ class ContentType
         'mp4' => 'video/mp4',
         'mov' => 'video/quicktime',
         'qt' => 'video/quicktime',
-        'ogv' => 'video/ogg',
+        'ogv' => 'application/ogg',
         '3gp' => 'video/3gpp',
         '_3gp' => 'video/3gpp',
         'json' => 'application/json',
