@@ -32,6 +32,7 @@ class ContentType
         'doc' => 'application/vnd.ms-word',
         'pdf' => 'application/pdf',
         'url' => 'text/url',
+        'mp3' => 'audio/mpeg',
     );
 
     private $contentTypeString;
