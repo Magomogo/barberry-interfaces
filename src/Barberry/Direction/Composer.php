@@ -61,7 +61,7 @@ use Barberry\Exception;
 use Barberry\Plugin;
 use Barberry\ContentType;
 
-class {$className}Direction extends DirectionAbstract {
+class Direction{$className} extends DirectionAbstract {
     protected function init(\$commandString = null) {
         \$this->converter = $converterInitialization;
         \$this->converter->configure($contentTypeConstructor, '$tempDirectory');
