@@ -11,10 +11,10 @@
 #*
 #0001000 #010 250 377 377 377 377 000 213 000 230 000 021 002 377 014 000
 #null to byte 1000 octal
-514	string	\377\377\377\377\000	Claris clip art?
->0	string	\0\0\0\0\0\0\0\0\0\0\0\0\0	yes.
-514	string	\377\377\377\377\001	Claris clip art?
->0	string	\0\0\0\0\0\0\0\0\0\0\0\0\0	yes.
+514	string	\377\377\377\377\000
+>0	string	\0\0\0\0\0\0\0\0\0\0\0\0\0	Claris clip art
+514	string	\377\377\377\377\001
+>0	string	\0\0\0\0\0\0\0\0\0\0\0\0\0	Claris clip art
 
 # Claris works files
 # .cwk

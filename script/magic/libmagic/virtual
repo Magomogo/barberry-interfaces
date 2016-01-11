@@ -10,8 +10,8 @@
 0	string	conectix	Microsoft Disk Image, Virtual Server or Virtual PC
 
 # Sun xVM VirtualBox Disk Image
-# string  <<< Sun xVM VirtualBox Disk Image >>>
-# .vdi
-0	string	\<\<\<\ Sun\ xVM\ VirtualBox\ Disk	Sun xVM VirtualBox Disk Image
-
-
+# From: Richard W.M. Jones <rich@annexia.org>
+# VirtualBox Disk Image
+0x40	ulelong		0xbeda107f	VirtualBox Disk Image
+>0x44	uleshort	>0		\b, major %u
+>0x46	uleshort	>0		\b, minor %u

@@ -1,6 +1,6 @@
 
 #------------------------------------------------------------------------------
-# $File: jpeg,v 1.15 2009/09/19 16:28:10 christos Exp $
+# $File: jpeg,v 1.18 2012/08/01 12:12:36 christos Exp $
 # JPEG images
 # SunOS 5.5.1 had
 #
@@ -12,7 +12,7 @@
 0	beshort		0xffd8		JPEG image data
 !:mime	image/jpeg
 !:apple	8BIMJPEG
-!:strength +1
+!:strength +2
 >6	string		JFIF		\b, JFIF standard
 # The following added by Erik Rossen <rossen@freesurf.ch> 1999-09-06
 # in a vain attempt to add image size reporting for JFIF.  Note that these
@@ -127,13 +127,8 @@
 # And if there was some sort of looping construct to do searches, plus a few
 # named accumulators, it would be even more effective...
 # At least we can show a comment if no other segments got inserted before:
->(4.S+5)	byte		0xFE
->>(4.S+8)	string		>\0		\b, comment: "%s"
-# FIXME: When we can do non-byte counted strings, we can use that to get
-# the string's count, and fix Debian bug #283760
-#>(4.S+5)	byte		0xFE		\b, comment
-#>>(4.S+6)	beshort		x		\b length=%d
-#>>(4.S+8)	string		>\0		\b, "%s"
+>(4.S+5)	byte		0xFE		\b, comment:
+>>(4.S+6)	pstring/HJ	x		"%s"
 # Or, we can show the encoding type (I've included only the three most common)
 # and image dimensions if we are lucky and the SOFn (image segment) is here:
 >(4.S+5)	byte		0xC0		\b, baseline
@@ -158,7 +153,20 @@
 0	string		hsi1		JPEG image data, HSI proprietary
 
 # From: David Santinoli <david@santinoli.com>
-0	string		\x00\x00\x00\x0C\x6A\x50\x20\x20\x0D\x0A\x87\x0A	JPEG 2000 image data
+0	string		\x00\x00\x00\x0C\x6A\x50\x20\x20\x0D\x0A\x87\x0A	JPEG 2000
+# From: Johan van der Knijff <johan.vanderknijff@kb.nl>
+# Added sub-entries for JP2, JPX, JPM and MJ2 formats; added mimetypes
+# https://github.com/bitsgalore/jp2kMagic
+#
+# Now read value of 'Brand' field, which yields a few possibilities:
+>20	string		\x6a\x70\x32\x20	Part 1 (JP2)
+!:mime	image/jp2
+>20	string		\x6a\x70\x78\x20	Part 2 (JPX)
+!:mime	image/jpx
+>20	string		\x6a\x70\x6d\x20	Part 6 (JPM)
+!:mime	image/jpm
+>20	string		\x6d\x6a\x70\x32	Part 3 (MJ2)
+!:mime	video/mj2
 
 # Type: JPEG 2000 codesream
 # From: Mathieu Malaterre <mathieu.malaterre@gmail.com>

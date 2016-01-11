@@ -16,6 +16,6 @@ cat ${DIR}/patch.mime >> $TARGET_FILE
 
 cd "$(dirname "$TARGET_FILE")"
 file -C -m $TARGET_FILE
-rm $TARGET_FILE
+#rm $TARGET_FILE
 
 echo "DONE"

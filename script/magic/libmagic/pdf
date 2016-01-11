@@ -12,5 +12,6 @@
 # From: Nick Schmalenberger <nick@schmalenberger.us>
 # Forms Data Format
 0       string          %FDF-           FDF document
+!:mime application/vnd.fdf
 >5      byte            x               \b, version %c
 >7      byte            x               \b.%c

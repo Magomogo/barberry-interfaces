@@ -63,3 +63,6 @@
 # From: Alex Beregszaszi <alex@fsn.hu>
 0	string		LZX		LZX compressed archive (Amiga)
 
+# From: Przemek Kramarczyk <pkramarczyk@gmail.com>
+0	string 		.KEY		AmigaDOS script
+0	string 		.key		AmigaDOS script
