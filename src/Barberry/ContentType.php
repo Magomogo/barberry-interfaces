@@ -78,6 +78,11 @@ class ContentType
         throw new ContentType\Exception($ext);
     }
 
+    public static function byExtention($ext)
+    {
+        return self::byExtension($ext);
+    }
+
     /**
      * @param $content
      * @return ContentType
