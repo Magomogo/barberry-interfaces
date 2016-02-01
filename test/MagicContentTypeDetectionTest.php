@@ -4,6 +4,8 @@ namespace Barberry;
 class MagicContentTypeDetectionTest extends \PHPUnit_Framework_TestCase {
 
     /**
+     * @param string $expectedContentType
+     * @param string $fileName
      * @dataProvider filesAndItsContentTypes
      */
     public function testPortableDocumentFormat($expectedContentType, $fileName) {
@@ -11,6 +13,15 @@ class MagicContentTypeDetectionTest extends \PHPUnit_Framework_TestCase {
             $expectedContentType,
             ContentType::byString(file_get_contents(__DIR__ . '/data/' . $fileName))
         );
+    }
+
+    /**
+     * @param string $expectedContentType
+     * @param string $fileName
+     * @dataProvider filesAndItsContentTypes
+     */
+    public function testPortableDocumentFormatByFile($expectedContentType, $fileName) {
+        $this->assertEquals($expectedContentType, ContentType::byFile(__DIR__ . '/data/' . $fileName));
     }
 
     public static function filesAndItsContentTypes() {
