@@ -8,7 +8,6 @@ class ContentType
         'jpeg' => 'image/jpeg',
         'gif' => 'image/gif',
         'tiff' => 'image/tiff',
-        'bmp' => 'image/x-ms-bmp',
         'png' => 'image/png',
         'flv' => 'video/x-flv',
         'webm' => 'video/webm',
