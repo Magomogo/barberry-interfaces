@@ -30,6 +30,8 @@ class MagicContentTypeDetectionTest extends \PHPUnit_Framework_TestCase {
             array(ContentType::mp3(), 'm1.mp3'),
             array(ContentType::mp3(), 'm2.mp3'),
             array(ContentType::mp3(), 'm2_5.mp3'),
+            array(ContentType::tiff(), '1x1.tiff'),
+            array(ContentType::bmp(), '1x1.bmp'),
         );
     }
 }
