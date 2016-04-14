@@ -1,6 +1,30 @@
 <?php
 namespace Barberry;
 
+use finfo;
+
+/**
+ * Class ContentType
+ *
+ * @method string gif($mime = '') static
+ * @method string json($mime = '') static
+ * @method string mkv($mime = '') static
+ * @method string mp3($mime = '') static
+ * @method string ogv($mime = '') static
+ * @method string ots($mime = '') static
+ * @method string ott($mime = '') static
+ * @method string ods($mime = '') static
+ * @method string doc($mime = '') static
+ * @method string odt($mime = '') static
+ * @method string pdf($mime = '') static
+ * @method string url($mime = '') static
+ * @method string webm($mime = '') static
+ * @method string xls($mime = '') static
+ * @method string tiff($mime = '') static
+ * @method string jpeg($mime = '') static
+ *
+ * @package Barberry
+ */
 class ContentType
 {
     private static $extensionMap = array(
@@ -33,38 +57,67 @@ class ContentType
         'doc' => 'application/vnd.ms-word',
         'pdf' => 'application/pdf',
         'url' => 'text/url',
-        'mp3' => 'audio/mpeg',
+        'mp3' => array('audio/mpeg', 'audio/x-mpeg', 'audio/mpeg3', 'audio/x-mpeg-3', 'audio/wav', 'audio/x-wav'),
     );
 
     private $contentTypeString;
 
     public static function __callStatic($method, $args)
     {
-        if (isset(self::$extensionMap[$method])) {
-            return self::byExtention($method);
+        $mime = self::$extensionMap[$method];
+        if (isset($mime)) {
+            if (!empty($args) && is_array($mime)) {
+                return self::byExtension($method, (string) array_shift($args));
+            }
+            return self::byExtension($method);
         }
 
-        throw new \Exception("Undefined method " . get_called_class() . "->{$method}() called.");
+        throw new \Exception("Undefined method " . get_called_class() . "::{$method}() called.");
     }
 
-    public static function byExtention($ext)
+    public static function byExtension($ext, $mime = '')
     {
-        if (isset(self::$extensionMap[$ext])) {
-            return new self(self::$extensionMap[$ext]);
+        $map = self::$extensionMap[$ext];
+        if (isset($map)) {
+            $map = (array) $map;
+            if (empty($mime)) {
+                $mime = array_shift($map);
+            } elseif (!in_array($mime, $map)) {
+                throw new ContentType\Exception($ext);
+            }
+            return new self($mime);
         }
         throw new ContentType\Exception($ext);
     }
 
+    public static function byExtention($ext, $mime = '')
+    {
+        return self::byExtension($ext, $mime);
+    }
+
+    /**
+     * @param $content
+     * @return ContentType
+     * @throws ContentType\Exception
+     */
     public static function byString($content)
     {
         $contentTypeString = self::contentTypeString($content);
-
-        $ext = array_search($contentTypeString, self::$extensionMap);
+        $ext = self::getExtensionByContentType($contentTypeString);
 
         if (false !== $ext) {
-            return self::byExtention($ext);
+            return new self($contentTypeString);
         }
         throw new ContentType\Exception($contentTypeString);
+    }
+
+    private static function getExtensionByContentType($contentType) {
+        foreach (self::$extensionMap as $ext => $mime) {
+            if (in_array($contentType, (array) $mime)) {
+                return $ext;
+            }
+        }
+        return false;
     }
 
     private function __construct($contentTypeString)
@@ -75,7 +128,7 @@ class ContentType
     public function standardExtension()
     {
         foreach (self::$extensionMap as $ext => $contentTypeStringArray) {
-            if ($this->contentTypeString === $contentTypeStringArray) {
+            if (in_array($this->contentTypeString, (array) $contentTypeStringArray)) {
                 return $ext;
             }
         }
@@ -86,8 +139,6 @@ class ContentType
     {
         return $this->contentTypeString;
     }
-
-//--------------------------------------------------------------------------------------------------
 
     private static function contentTypeString($content)
     {

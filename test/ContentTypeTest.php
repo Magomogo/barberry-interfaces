@@ -6,12 +6,12 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase {
     public function testIsJpegCreatedByExtension() {
         $this->assertEquals(
             'jpg',
-            ContentType::byExtention('jpg')->standardExtension()
+            ContentType::byExtension('jpg')->standardExtension()
         );
     }
 
     public function testContentTypeHasStandardExtension() {
-        ContentType::byExtention('jpg')->standardExtension();
+        ContentType::byExtension('jpg')->standardExtension();
     }
 
     public function testIsPhpCreatedByContentTypeString() {
@@ -23,5 +23,10 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase {
 
     public function testMagicallyBecomesAString() {
         $this->assertEquals('image/jpeg', strval(ContentType::jpeg()));
+    }
+
+    public function testConcreteMime()
+    {
+        $this->assertEquals('audio/x-wav', (string) ContentType::byString(file_get_contents(__DIR__ . '/data/sample.MP3')));
     }
 }
