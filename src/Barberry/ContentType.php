@@ -6,22 +6,22 @@ use finfo;
 /**
  * Class ContentType
  *
- * @method string gif() static
- * @method string json() static
- * @method string mkv() static
- * @method string mp3() static
- * @method string ogv() static
- * @method string ots() static
- * @method string ott() static
- * @method string ods() static
- * @method string doc() static
- * @method string odt() static
- * @method string pdf() static
- * @method string url() static
- * @method string webm() static
- * @method string xls() static
- * @method string tiff() static
- * @method string jpeg() static
+ * @method string gif($mime = '') static
+ * @method string json($mime = '') static
+ * @method string mkv($mime = '') static
+ * @method string mp3($mime = '') static
+ * @method string ogv($mime = '') static
+ * @method string ots($mime = '') static
+ * @method string ott($mime = '') static
+ * @method string ods($mime = '') static
+ * @method string doc($mime = '') static
+ * @method string odt($mime = '') static
+ * @method string pdf($mime = '') static
+ * @method string url($mime = '') static
+ * @method string webm($mime = '') static
+ * @method string xls($mime = '') static
+ * @method string tiff($mime = '') static
+ * @method string jpeg($mime = '') static
  *
  * @package Barberry
  */
@@ -64,24 +64,35 @@ class ContentType
 
     public static function __callStatic($method, $args)
     {
-        if (isset(self::$extensionMap[$method])) {
+        $mime = self::$extensionMap[$method];
+        if (isset($mime)) {
+            if (!empty($args) && is_array($mime)) {
+                return self::byExtension($method, (string) array_shift($args));
+            }
             return self::byExtension($method);
         }
 
         throw new \Exception("Undefined method " . get_called_class() . "::{$method}() called.");
     }
 
-    public static function byExtension($ext)
+    public static function byExtension($ext, $mime = '')
     {
-        if (isset(self::$extensionMap[$ext])) {
-            return new self(self::$extensionMap[$ext]);
+        $map = self::$extensionMap[$ext];
+        if (isset($map)) {
+            $map = (array) $map;
+            if (empty($mime)) {
+                $mime = array_shift($map);
+            } elseif (!in_array($mime, $map)) {
+                throw new ContentType\Exception($ext);
+            }
+            return new self($mime);
         }
         throw new ContentType\Exception($ext);
     }
 
-    public static function byExtention($ext)
+    public static function byExtention($ext, $mime = '')
     {
-        return self::byExtension($ext);
+        return self::byExtension($ext, $mime);
     }
 
     /**
@@ -95,7 +106,7 @@ class ContentType
         $ext = self::getExtensionByContentType($contentTypeString);
 
         if (false !== $ext) {
-            return self::byExtension($ext);
+            return new self($contentTypeString);
         }
         throw new ContentType\Exception($contentTypeString);
     }
@@ -117,7 +128,7 @@ class ContentType
     public function standardExtension()
     {
         foreach (self::$extensionMap as $ext => $contentTypeStringArray) {
-            if ($this->contentTypeString === $contentTypeStringArray) {
+            if (in_array($this->contentTypeString, (array) $contentTypeStringArray)) {
                 return $ext;
             }
         }

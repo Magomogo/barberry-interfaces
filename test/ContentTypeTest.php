@@ -24,4 +24,9 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase {
     public function testMagicallyBecomesAString() {
         $this->assertEquals('image/jpeg', strval(ContentType::jpeg()));
     }
+
+    public function testConcreteMime()
+    {
+        $this->assertEquals('audio/x-wav', (string) ContentType::byString(file_get_contents(__DIR__ . '/data/sample.MP3')));
+    }
 }
