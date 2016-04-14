@@ -15,15 +15,6 @@ class MagicContentTypeDetectionTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @param string $expectedContentType
-     * @param string $fileName
-     * @dataProvider filesAndItsContentTypes
-     */
-    public function testPortableDocumentFormatByFile($expectedContentType, $fileName) {
-        $this->assertEquals($expectedContentType, ContentType::byFile(__DIR__ . '/data/' . $fileName));
-    }
-
     public static function filesAndItsContentTypes() {
         return array(
             array(ContentType::gif(), '1x1.gif'),
@@ -41,6 +32,7 @@ class MagicContentTypeDetectionTest extends \PHPUnit_Framework_TestCase {
             array(ContentType::mp3(), 'm1.mp3'),
             array(ContentType::mp3(), 'm2.mp3'),
             array(ContentType::mp3(), 'm2_5.mp3'),
+            array(ContentType::mp3(), 'sample.MP3'),
             array(ContentType::tiff(), '1x1.tiff'),
         );
     }

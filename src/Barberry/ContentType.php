@@ -1,8 +1,6 @@
 <?php
 namespace Barberry;
 
-use Barberry\ContentType\Exception;
-use Barberry\ContentType\GetMimeInfoException;
 use finfo;
 
 /**
@@ -22,6 +20,8 @@ use finfo;
  * @method string url() static
  * @method string webm() static
  * @method string xls() static
+ * @method string tiff() static
+ * @method string jpeg() static
  *
  * @package Barberry
  */
@@ -57,7 +57,7 @@ class ContentType
         'doc' => 'application/vnd.ms-word',
         'pdf' => 'application/pdf',
         'url' => 'text/url',
-        'mp3' => 'audio/mpeg',
+        'mp3' => array('audio/mpeg', 'audio/x-mpeg', 'audio/mpeg3', 'audio/x-mpeg-3', 'audio/wav', 'audio/x-wav'),
     );
 
     private $contentTypeString;
@@ -92,12 +92,21 @@ class ContentType
     public static function byString($content)
     {
         $contentTypeString = self::contentTypeString($content);
-        $ext = array_search($contentTypeString, self::$extensionMap);
+        $ext = self::getExtensionByContentType($contentTypeString);
 
         if (false !== $ext) {
             return self::byExtension($ext);
         }
         throw new ContentType\Exception($contentTypeString);
+    }
+
+    private static function getExtensionByContentType($contentType) {
+        foreach (self::$extensionMap as $ext => $mime) {
+            if (in_array($contentType, (array) $mime)) {
+                return $ext;
+            }
+        }
+        return false;
     }
 
     private function __construct($contentTypeString)
