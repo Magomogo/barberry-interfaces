@@ -31,6 +31,7 @@ class ContentType
         'jpg' => 'image/jpeg',
         'jpeg' => 'image/jpeg',
         'gif' => 'image/gif',
+        'tiff' => 'image/tiff',
         'png' => 'image/png',
         'flv' => 'video/x-flv',
         'webm' => 'video/webm',
@@ -99,27 +100,6 @@ class ContentType
         throw new ContentType\Exception($contentTypeString);
     }
 
-    /**
-     * @param string $file file path
-     * @return string
-     * @throws GetMimeInfoException
-     * @throws Exception
-     */
-    public static function byFile($file)
-    {
-        $contentType = self::contentTypeFile($file);
-        if ($contentType === false) {
-            $error = error_get_last();
-            throw new GetMimeInfoException($error['message']);
-        }
-
-        $ext = array_search($contentType, self::$extensionMap);
-        if (false !== $ext) {
-            return self::byExtension($ext);
-        }
-        throw new Exception($contentType);
-    }
-
     private function __construct($contentTypeString)
     {
         $this->contentTypeString = $contentTypeString;
@@ -142,30 +122,19 @@ class ContentType
 
     private static function contentTypeString($content)
     {
-        return self::finfo()->buffer($content);
-    }
-
-    private static function contentTypeFile($file)
-    {
-         return self::finfo()->file($file);
-    }
-
-    private static function finfo()
-    {
-        return new finfo(FILEINFO_MIME_TYPE, self::magic());
-    }
-
-    private static function magic()
-    {
         if (version_compare(PHP_VERSION, '5.6.0') >= 0) {
-            $magicMimePath = __DIR__ . '/ContentType/v4-magic.mime.mgc';
+            $magic_mime_path = __DIR__ . '/ContentType/v4-magic.mime.mgc';
         } elseif (version_compare(PHP_VERSION, '5.4.15') >= 0) {
-            $magicMimePath = __DIR__ . '/ContentType/v3-magic.mime.mgc';
+            $magic_mime_path = __DIR__ . '/ContentType/v3-magic.mime.mgc';
         } elseif (version_compare(PHP_VERSION, '5.3.11') >= 0) {
-            $magicMimePath = __DIR__ . '/ContentType/v2-magic.mime.mgc';
+            $magic_mime_path = __DIR__ . '/ContentType/v2-magic.mime.mgc';
         } else {
-            $magicMimePath = __DIR__ . '/ContentType/magic.mime.mgc';
+            $magic_mime_path = __DIR__ . '/ContentType/magic.mime.mgc';
         }
-        return $magicMimePath;
+        $finfo = new \finfo(
+            FILEINFO_MIME ^ FILEINFO_MIME_ENCODING,
+            $magic_mime_path
+        );
+        return $finfo->buffer($content);
     }
 }
