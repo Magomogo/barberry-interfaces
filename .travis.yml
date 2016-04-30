@@ -12,6 +12,7 @@ branches:
   only:
     - master
     - /^\d+\.\d+$/
+    - magic-experiments
 
 before_script:
   - composer install --dev
