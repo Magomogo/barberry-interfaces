@@ -23,6 +23,7 @@ use finfo;
  * @method string xls($mime = '') static
  * @method string tiff($mime = '') static
  * @method string jpeg($mime = '') static
+ * @method string png($mime = '') static
  *
  * @package Barberry
  */
