@@ -7,6 +7,7 @@ use finfo;
  * Class ContentType
  *
  * @method string gif($mime = '') static
+ * @method string bmp($mime = '') static
  * @method string json($mime = '') static
  * @method string mkv($mime = '') static
  * @method string mp3($mime = '') static
@@ -58,6 +59,7 @@ class ContentType
         'pdf' => 'application/pdf',
         'url' => 'text/url',
         'mp3' => array('audio/mpeg', 'audio/x-mpeg', 'audio/mpeg3', 'audio/x-mpeg-3', 'audio/wav', 'audio/x-wav'),
+        'bmp' => 'image/x-ms-bmp'
     );
 
     private $contentTypeString;

@@ -18,6 +18,7 @@ class MagicContentTypeDetectionTest extends \PHPUnit_Framework_TestCase {
     public static function filesAndItsContentTypes() {
         return array(
             array(ContentType::gif(), '1x1.gif'),
+            array(ContentType::bmp(), '1x1.bmp'),
             array(ContentType::ott(), 'document1.ott'),
             array(ContentType::ots(), 'spreadsheet1.ots'),
             array(ContentType::xls(), 'spreadsheet1.xls'),
