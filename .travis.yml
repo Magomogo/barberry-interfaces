@@ -16,5 +16,6 @@ branches:
 
 before_script:
   - composer install --dev
+  - php -i | grep -A 2 "fileinfo support"
 
 script: ./phpunit
