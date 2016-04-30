@@ -148,10 +148,8 @@ class ContentType
             $magic_mime_path = __DIR__ . '/ContentType/magic-5.17.mime.mgc';
         } elseif (version_compare(PHP_VERSION, '5.4.15') >= 0) {
             $magic_mime_path = __DIR__ . '/ContentType/magic-5.14.mime.mgc';
-        } elseif (version_compare(PHP_VERSION, '5.3.11') >= 0) {
-            $magic_mime_path = __DIR__ . '/ContentType/magic-5.11.mime.mgc';
         } else {
-            $magic_mime_path = __DIR__ . '/ContentType/magic-5.0.mime.mgc';
+            $magic_mime_path = __DIR__ . '/ContentType/magic-5.11.mime.mgc';
         }
         $finfo = new \finfo(
             FILEINFO_MIME ^ FILEINFO_MIME_ENCODING,
