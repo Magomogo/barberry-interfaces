@@ -26,7 +26,6 @@ class MagicContentTypeDetectionTest extends \PHPUnit_Framework_TestCase {
             array(ContentType::odt(), 'document1.odt'),
             array(ContentType::pdf(), 'sample.pdf'),
             array(ContentType::url(), 'xiag.url'),
-            array(ContentType::ogv(), 'test.ogv'),
             array(ContentType::webm(), 'test.webm'),
             array(ContentType::mkv(), 'test.mkv'),
             array(ContentType::mp3(), 'm1.mp3'),
@@ -34,6 +33,19 @@ class MagicContentTypeDetectionTest extends \PHPUnit_Framework_TestCase {
             array(ContentType::mp3(), 'm2_5.mp3'),
             array(ContentType::mp3('audio/x-wav'), 'sample.MP3'),
             array(ContentType::tiff(), '1x1.tiff'),
+        );
+    }
+
+    public function testOgvFormat()
+    {
+        $contentType = ContentType::byString(file_get_contents(__DIR__ . '/data/test.ogv'));
+
+        $this->assertThat(
+            $contentType,
+            $this->logicalOr(
+                $this->equalTo(ContentType::ogv('application/ogg')),
+                $this->equalTo(ContentType::ogv('video/ogg'))
+            )
         );
     }
 }
