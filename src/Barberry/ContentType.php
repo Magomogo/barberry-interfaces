@@ -142,14 +142,16 @@ class ContentType
 
     private static function contentTypeString($content)
     {
-        if (version_compare(PHP_VERSION, '5.6.0') >= 0) {
-            $magic_mime_path = __DIR__ . '/ContentType/v4-magic.mime.mgc';
+        if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
+            $magic_mime_path = __DIR__ . '/ContentType/magic-5.26.mime.mgc';
+        } elseif (version_compare(PHP_VERSION, '5.6.0') >= 0) {
+            $magic_mime_path = __DIR__ . '/ContentType/magic-5.17.mime.mgc';
         } elseif (version_compare(PHP_VERSION, '5.4.15') >= 0) {
-            $magic_mime_path = __DIR__ . '/ContentType/v3-magic.mime.mgc';
+            $magic_mime_path = __DIR__ . '/ContentType/magic-5.14.mime.mgc';
         } elseif (version_compare(PHP_VERSION, '5.3.11') >= 0) {
-            $magic_mime_path = __DIR__ . '/ContentType/v2-magic.mime.mgc';
+            $magic_mime_path = __DIR__ . '/ContentType/magic-5.11.mime.mgc';
         } else {
-            $magic_mime_path = __DIR__ . '/ContentType/magic.mime.mgc';
+            $magic_mime_path = __DIR__ . '/ContentType/magic-5.0.mime.mgc';
         }
         $finfo = new \finfo(
             FILEINFO_MIME ^ FILEINFO_MIME_ENCODING,
