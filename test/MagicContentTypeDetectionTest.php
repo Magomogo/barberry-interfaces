@@ -36,6 +36,7 @@ class MagicContentTypeDetectionTest extends \PHPUnit_Framework_TestCase {
             array(ContentType::tiff(), '1x1.tiff'),
             array(ContentType::jpeg(), '536208.gif'),
             array(ContentType::png(), '107650.png'),
+            array(ContentType::doc('application/msword'), 'chips.doc')
         );
     }
 
@@ -62,18 +63,6 @@ class MagicContentTypeDetectionTest extends \PHPUnit_Framework_TestCase {
                 $this->equalTo(ContentType::docx('application/vnd.openxmlformats-officedocument.wordprocessingml.document')),
                 $this->equalTo(ContentType::docx('application/vnd.openxmlformats.wordprocessingml.document'))
             )
-        );
-    }
-
-    public function testMsWordFormat()
-    {
-        if (version_compare(PHP_VERSION, '5.4.15') < 0) {
-            $this->markTestSkipped('Not supported by libmagic 5.11');
-        }
-
-        $this->assertEquals(
-            ContentType::doc('application/msword'),
-            ContentType::byString(file_get_contents(__DIR__ . '/data/chips.doc'))
         );
     }
 }
