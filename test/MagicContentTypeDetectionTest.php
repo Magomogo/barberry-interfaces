@@ -51,4 +51,29 @@ class MagicContentTypeDetectionTest extends \PHPUnit_Framework_TestCase {
             )
         );
     }
+
+    public function testDocxFormat()
+    {
+        $contentType = ContentType::byString(file_get_contents(__DIR__ . '/data/9011.docx'));
+
+        $this->assertThat(
+            $contentType,
+            $this->logicalOr(
+                $this->equalTo(ContentType::docx('application/vnd.openxmlformats-officedocument.wordprocessingml.document')),
+                $this->equalTo(ContentType::docx('application/vnd.openxmlformats.wordprocessingml.document'))
+            )
+        );
+    }
+
+    public function testMsWordFormat()
+    {
+        if (version_compare(PHP_VERSION, '5.4.15') < 0) {
+            $this->markTestSkipped('Not supported by libmagic 5.11');
+        }
+
+        $this->assertEquals(
+            ContentType::doc('application/msword'),
+            ContentType::byString(file_get_contents(__DIR__ . '/data/chips.doc'))
+        );
+    }
 }

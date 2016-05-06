@@ -16,6 +16,7 @@ use finfo;
  * @method string ott($mime = '') static
  * @method string ods($mime = '') static
  * @method string doc($mime = '') static
+ * @method string docx($mime = '') static
  * @method string odt($mime = '') static
  * @method string pdf($mime = '') static
  * @method string url($mime = '') static
@@ -56,7 +57,11 @@ class ContentType
         'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
         'txt' => 'text/plain',
         'xls' => 'application/vnd.ms-excel',
-        'doc' => 'application/vnd.ms-word',
+        'doc' => array('application/vnd.ms-word', 'application/msword'),
+        'docx' => array(
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'application/vnd.openxmlformats.wordprocessingml.document'
+        ),
         'pdf' => 'application/pdf',
         'url' => 'text/url',
         'mp3' => array('audio/mpeg', 'audio/x-mpeg', 'audio/mpeg3', 'audio/x-mpeg-3', 'audio/wav', 'audio/x-wav'),
