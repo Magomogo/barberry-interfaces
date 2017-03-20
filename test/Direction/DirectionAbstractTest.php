@@ -7,7 +7,7 @@ class DirectionAbstractTest extends \PHPUnit_Framework_TestCase {
     public function testTransfersStringCommandToConverter() {
         $direction = new TestDirection('string_command');
         $direction->getConverter()->shouldReceive('convert')
-            ->with('010101', anInstanceOf('\\Barberry\\Plugin\\InterfaceCommand')
+            ->with('010101', m::type('\\Barberry\\Plugin\\InterfaceCommand')
         );
 
         $direction->convert('010101');
