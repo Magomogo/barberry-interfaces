@@ -29,4 +29,14 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase {
     {
         $this->assertEquals('audio/x-wav', (string) ContentType::byString(file_get_contents(__DIR__ . '/data/sample.MP3')));
     }
+
+    public function testTakesFirstWhenThereAreSeveralContentTypesPossible()
+    {
+        $this->assertSame('image/x-icon', (string) ContentType::ico());
+    }
+
+    public function testSpecialContentTypeIsPossible()
+    {
+        $this->assertSame('image/vnd.microsoft.icon', (string) ContentType::ico('image/vnd.microsoft.icon'));
+    }
 }

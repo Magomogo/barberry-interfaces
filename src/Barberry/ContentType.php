@@ -25,6 +25,7 @@ use finfo;
  * @method string tiff($mime = '') static
  * @method string jpeg($mime = '') static
  * @method string png($mime = '') static
+ * @method string ico($mime = '') static
  *
  * @package Barberry
  */
@@ -65,7 +66,8 @@ class ContentType
         'pdf' => 'application/pdf',
         'url' => 'text/url',
         'mp3' => array('audio/mpeg', 'audio/x-mpeg', 'audio/mpeg3', 'audio/x-mpeg-3', 'audio/wav', 'audio/x-wav'),
-        'bmp' => 'image/x-ms-bmp'
+        'bmp' => 'image/x-ms-bmp',
+        'ico' => array('image/x-icon', 'image/vnd.microsoft.icon')
     );
 
     private $contentTypeString;
