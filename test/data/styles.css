@@ -1,0 +1,5 @@
+body { min-width: 1200px; width: auto;}
+body.noback { min-width: 100%;}
+.container { min-width: 1200px; width: auto;}
+.nano .container { min-width: 100px; width: auto;}
+.navbar-collapse { display: block !important; height: auto !important; padding-bottom: 0; overflow: visible !important;}

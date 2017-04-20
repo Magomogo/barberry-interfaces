@@ -26,6 +26,7 @@ use finfo;
  * @method string jpeg($mime = '') static
  * @method string png($mime = '') static
  * @method string ico($mime = '') static
+ * @method string css($mime = '') static
  *
  * @package Barberry
  */
@@ -67,7 +68,8 @@ class ContentType
         'url' => 'text/url',
         'mp3' => array('audio/mpeg', 'audio/x-mpeg', 'audio/mpeg3', 'audio/x-mpeg-3', 'audio/wav', 'audio/x-wav'),
         'bmp' => 'image/x-ms-bmp',
-        'ico' => array('image/x-icon', 'image/vnd.microsoft.icon')
+        'ico' => array('image/x-icon', 'image/vnd.microsoft.icon'),
+        'css' => 'text/css',
     );
 
     private $contentTypeString;
@@ -87,9 +89,8 @@ class ContentType
 
     public static function byExtension($ext, $mime = '')
     {
-        $map = self::$extensionMap[$ext];
-        if (isset($map)) {
-            $map = (array) $map;
+        if (isset(self::$extensionMap[$ext])) {
+            $map = (array) self::$extensionMap[$ext];
             if (empty($mime)) {
                 $mime = array_shift($map);
             } elseif (!in_array($mime, $map)) {

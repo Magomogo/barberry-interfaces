@@ -3,6 +3,12 @@ namespace Barberry;
 
 class ContentTypeTest extends \PHPUnit_Framework_TestCase {
 
+    public function testThrowsWhenExceptionIsNotKnown()
+    {
+        $this->setExpectedException('Barberry\ContentType\Exception');
+        ContentType::byExtension('boo');
+    }
+
     public function testIsJpegCreatedByExtension() {
         $this->assertEquals(
             'jpg',
