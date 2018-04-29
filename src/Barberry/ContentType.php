@@ -153,7 +153,9 @@ class ContentType
 
     private static function contentTypeString($content)
     {
-        if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
+        if (version_compare(PHP_VERSION, '7.2.0') >= 0) {
+            $magic_mime_path = __DIR__ . '/ContentType/magic-5.31.mime.mgc';
+        } elseif (version_compare(PHP_VERSION, '7.0.0') >= 0) {
             $magic_mime_path = __DIR__ . '/ContentType/magic-5.22.mime.mgc';
         } elseif (version_compare(PHP_VERSION, '5.6.0') >= 0) {
             $magic_mime_path = __DIR__ . '/ContentType/magic-5.17.mime.mgc';
