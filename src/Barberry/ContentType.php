@@ -27,6 +27,7 @@ use finfo;
  * @method string png($mime = '') static
  * @method string ico($mime = '') static
  * @method string css($mime = '') static
+ * @method string html($mime = '') static
  *
  * @package Barberry
  */
@@ -70,6 +71,7 @@ class ContentType
         'bmp' => 'image/x-ms-bmp',
         'ico' => array('image/x-icon', 'image/vnd.microsoft.icon'),
         'css' => 'text/css',
+        'html' => 'text/html',
     );
 
     private $contentTypeString;
