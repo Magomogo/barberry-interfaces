@@ -38,7 +38,8 @@ class MagicContentTypeDetectionTest extends \PHPUnit_Framework_TestCase {
             array(ContentType::png(), '107650.png'),
             array(ContentType::doc('application/msword'), 'chips.doc'),
             array(ContentType::ico(), 'favicon.ico'),
-            array(ContentType::css(), 'styles.css')
+            array(ContentType::css(), 'styles.css'),
+            array(ContentType::html(), 'page.html'),
         );
     }
 
