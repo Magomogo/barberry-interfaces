@@ -155,16 +155,16 @@ class ContentType
 
     private static function contentTypeString($content)
     {
-        if (version_compare(PHP_VERSION, '7.2.0') >= 0) {
+        if (version_compare(PHP_VERSION, '7.4.0') >= 0) {
+            $magic_mime_path = __DIR__ . '/ContentType/magic-5.37.mime.mgc';
+        } elseif (version_compare(PHP_VERSION, '7.3.0') >= 0) {
+            $magic_mime_path = __DIR__ . '/ContentType/magic-5.33.mime.mgc';
+        } elseif (version_compare(PHP_VERSION, '7.2.0') >= 0) {
             $magic_mime_path = __DIR__ . '/ContentType/magic-5.31.mime.mgc';
         } elseif (version_compare(PHP_VERSION, '7.0.0') >= 0) {
             $magic_mime_path = __DIR__ . '/ContentType/magic-5.22.mime.mgc';
-        } elseif (version_compare(PHP_VERSION, '5.6.0') >= 0) {
-            $magic_mime_path = __DIR__ . '/ContentType/magic-5.17.mime.mgc';
-        } elseif (version_compare(PHP_VERSION, '5.4.15') >= 0) {
-            $magic_mime_path = __DIR__ . '/ContentType/magic-5.14.mime.mgc';
         } else {
-            $magic_mime_path = __DIR__ . '/ContentType/magic-5.11.mime.mgc';
+            $magic_mime_path = __DIR__ . '/ContentType/magic-5.17.mime.mgc';
         }
         $finfo = new \finfo(
             FILEINFO_MIME ^ FILEINFO_MIME_ENCODING,
