@@ -22,6 +22,7 @@ use finfo;
  * @method string url($mime = '') static
  * @method string webm($mime = '') static
  * @method string xls($mime = '') static
+ * @method string xlsx($mime = '') static
  * @method string tiff($mime = '') static
  * @method string jpeg($mime = '') static
  * @method string png($mime = '') static
@@ -60,6 +61,7 @@ class ContentType
         'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
         'txt' => 'text/plain',
         'xls' => 'application/vnd.ms-excel',
+        'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         'doc' => array('application/vnd.ms-word', 'application/msword'),
         'docx' => array(
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',

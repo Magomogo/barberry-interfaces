@@ -38,6 +38,7 @@ class MagicContentTypeDetectionTest extends \PHPUnit_Framework_TestCase {
             array(ContentType::doc('application/msword'), 'chips.doc'),
             array(ContentType::css(), 'styles.css'),
             array(ContentType::html(), 'page.html'),
+            array(ContentType::xlsx(), 'spreadsheet1.xlsx'),
         );
     }
 
