@@ -23,7 +23,6 @@ class MagicContentTypeDetectionTest extends \PHPUnit_Framework_TestCase {
             array(ContentType::ots(), 'spreadsheet1.ots'),
             array(ContentType::xls(), 'spreadsheet1.xls'),
             array(ContentType::ods(), 'spreadsheet1.ods'),
-            array(ContentType::doc(), 'document1.doc'),
             array(ContentType::odt(), 'document1.odt'),
             array(ContentType::pdf(), 'sample.pdf'),
             array(ContentType::url(), 'xiag.url'),
@@ -37,7 +36,6 @@ class MagicContentTypeDetectionTest extends \PHPUnit_Framework_TestCase {
             array(ContentType::jpeg(), '536208.gif'),
             array(ContentType::png(), '107650.png'),
             array(ContentType::doc('application/msword'), 'chips.doc'),
-            array(ContentType::ico(), 'favicon.ico'),
             array(ContentType::css(), 'styles.css'),
             array(ContentType::html(), 'page.html'),
         );
@@ -65,6 +63,32 @@ class MagicContentTypeDetectionTest extends \PHPUnit_Framework_TestCase {
             $this->logicalOr(
                 $this->equalTo(ContentType::docx('application/vnd.openxmlformats-officedocument.wordprocessingml.document')),
                 $this->equalTo(ContentType::docx('application/vnd.openxmlformats.wordprocessingml.document'))
+            )
+        );
+    }
+
+    public function testDocFormat()
+    {
+        $contentType = ContentType::byString(file_get_contents(__DIR__ . '/data/document1.doc'));
+
+        $this->assertThat(
+            $contentType,
+            $this->logicalOr(
+                $this->equalTo(ContentType::doc('application/vnd.ms-word')),
+                $this->equalTo(ContentType::doc('application/msword'))
+            )
+        );
+    }
+
+    public function testIconFormat()
+    {
+        $contentType = ContentType::byString(file_get_contents(__DIR__ . '/data/favicon.ico'));
+
+        $this->assertThat(
+            $contentType,
+            $this->logicalOr(
+                $this->equalTo(ContentType::ico('image/x-icon')),
+                $this->equalTo(ContentType::ico('image/vnd.microsoft.icon'))
             )
         );
     }
