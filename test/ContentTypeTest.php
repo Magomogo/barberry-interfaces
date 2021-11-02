@@ -45,4 +45,11 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase {
     {
         $this->assertSame('image/vnd.microsoft.icon', (string) ContentType::ico('image/vnd.microsoft.icon'));
     }
+
+    public function testAcceptContentConsideredAsMessageNews() {
+        $this->assertEquals(
+            'nws',
+            ContentType::byString("Article_Number\tPrice\n1000.1\t99.90")->standardExtension()
+        );
+    }
 }

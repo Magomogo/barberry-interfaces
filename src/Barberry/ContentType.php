@@ -74,6 +74,7 @@ class ContentType
         'ico' => array('image/x-icon', 'image/vnd.microsoft.icon'),
         'css' => 'text/css',
         'html' => 'text/html',
+        'nws' => 'message/news'
     );
 
     private $contentTypeString;
