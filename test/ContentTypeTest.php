@@ -78,7 +78,6 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase
             ['sample.pdf', 'application/pdf'],
             ['page.html', 'text/html'],
             ['spreadsheet1.ods', 'application/vnd.oasis.opendocument.spreadsheet'],
-            ['spreadsheet1.xls', 'application/vnd.ms-excel'],
             ['styles.css', 'text/css']
         ];
     }
