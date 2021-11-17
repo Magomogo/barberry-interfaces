@@ -1,34 +1,39 @@
 <?php
+
 namespace Barberry;
 
-class ContentTypeTest extends \PHPUnit_Framework_TestCase {
-
+class ContentTypeTest extends \PHPUnit_Framework_TestCase
+{
     public function testThrowsWhenExceptionIsNotKnown()
     {
         $this->setExpectedException('Barberry\ContentType\Exception');
         ContentType::byExtension('boo');
     }
 
-    public function testIsJpegCreatedByExtension() {
+    public function testIsJpegCreatedByExtension()
+    {
         $this->assertEquals(
             'jpg',
             ContentType::byExtension('jpg')->standardExtension()
         );
     }
 
-    public function testContentTypeHasStandardExtension() {
+    public function testContentTypeHasStandardExtension()
+    {
         ContentType::byExtension('jpg')->standardExtension();
     }
 
-    public function testIsPhpCreatedByContentTypeString() {
+    public function testIsPhpCreatedByContentTypeString()
+    {
         $this->assertEquals(
             'php',
             ContentType::byString(file_get_contents(__FILE__))->standardExtension()
         );
     }
 
-    public function testMagicallyBecomesAString() {
-        $this->assertEquals('image/jpeg', strval(ContentType::jpeg()));
+    public function testMagicallyBecomesAString()
+    {
+        $this->assertEquals('image/jpeg', (string) ContentType::jpeg());
     }
 
     public function testConcreteMime()
@@ -46,7 +51,8 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame('image/vnd.microsoft.icon', (string) ContentType::ico('image/vnd.microsoft.icon'));
     }
 
-    public function testAcceptContentConsideredAsMessageNews() {
+    public function testAcceptContentConsideredAsMessageNews()
+    {
         $this->assertEquals(
             'nws',
             ContentType::byString("Article_Number\tPrice\n1000.1\t99.90")->standardExtension()

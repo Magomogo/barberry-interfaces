@@ -1,7 +1,6 @@
 <?php
-namespace Barberry;
 
-use finfo;
+namespace Barberry;
 
 /**
  * Class ContentType
@@ -150,7 +149,8 @@ class ContentType
         throw new ContentType\Exception($contentType);
     }
 
-    private static function getExtensionByContentType($contentType) {
+    private static function getExtensionByContentType($contentType)
+    {
         foreach (self::$extensionMap as $ext => $mime) {
             if (in_array($contentType, (array) $mime)) {
                 return $ext;
