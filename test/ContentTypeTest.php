@@ -6,7 +6,7 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase
 {
     public function testThrowsWhenExceptionIsNotKnown()
     {
-        $this->setExpectedException('Barberry\ContentType\Exception');
+        $this->expectException('Barberry\ContentType\Exception');
         ContentType::byExtension('boo');
     }
 
