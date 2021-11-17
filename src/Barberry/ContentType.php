@@ -1,7 +1,6 @@
 <?php
-namespace Barberry;
 
-use finfo;
+namespace Barberry;
 
 /**
  * Class ContentType
@@ -112,22 +111,46 @@ class ContentType
     }
 
     /**
-     * @param $content
+     * @param string $content
      * @return ContentType
      * @throws ContentType\Exception
      */
     public static function byString($content)
     {
-        $contentTypeString = self::contentTypeString($content);
-        $ext = self::getExtensionByContentType($contentTypeString);
-
-        if (false !== $ext) {
-            return new self($contentTypeString);
-        }
-        throw new ContentType\Exception($contentTypeString);
+        return self::buildForType(
+            self::contentTypeByString($content)
+        );
     }
 
-    private static function getExtensionByContentType($contentType) {
+    /**
+     * @param string $filename
+     * @return ContentType
+     * @throws ContentType\Exception
+     */
+    public static function byFilename($filename)
+    {
+        return self::buildForType(
+            self::contentTypeByFilename($filename)
+        );
+    }
+
+    /**
+     * @param string $contentType
+     * @return ContentType
+     * @throws ContentType\Exception
+     */
+    private static function buildForType($contentType)
+    {
+        $ext = self::getExtensionByContentType($contentType);
+
+        if ($ext !== false) {
+            return new self($contentType);
+        }
+        throw new ContentType\Exception($contentType);
+    }
+
+    private static function getExtensionByContentType($contentType)
+    {
         foreach (self::$extensionMap as $ext => $mime) {
             if (in_array($contentType, (array) $mime)) {
                 return $ext;
@@ -156,7 +179,17 @@ class ContentType
         return $this->contentTypeString;
     }
 
-    private static function contentTypeString($content)
+    private static function contentTypeByString($content)
+    {
+        return self::fileinfo()->buffer($content);
+    }
+
+    private static function contentTypeByFilename($filename)
+    {
+        return self::fileinfo()->file($filename);
+    }
+
+    private static function fileinfo()
     {
         if (version_compare(PHP_VERSION, '7.4.0') >= 0) {
             $magic_mime_path = __DIR__ . '/ContentType/magic-5.37.mime.mgc';
@@ -169,10 +202,10 @@ class ContentType
         } else {
             $magic_mime_path = __DIR__ . '/ContentType/magic-5.17.mime.mgc';
         }
-        $finfo = new \finfo(
+
+        return new \finfo(
             FILEINFO_MIME ^ FILEINFO_MIME_ENCODING,
             $magic_mime_path
         );
-        return $finfo->buffer($content);
     }
 }
