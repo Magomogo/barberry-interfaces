@@ -52,4 +52,28 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase {
             ContentType::byString("Article_Number\tPrice\n1000.1\t99.90")->standardExtension()
         );
     }
+
+    /**
+     * @dataProvider contentTypeByFilenames
+     */
+    public function testContentTypeByFilename($filename, $type)
+    {
+        $this->assertEquals($type, (string) ContentType::byFilename(__DIR__ . '/data/' . $filename));
+    }
+
+    public static function contentTypeByFilenames()
+    {
+        return [
+            ['1x1.bmp', 'image/x-ms-bmp'],
+            ['107650.png', 'image/png'],
+            ['document1.doc', 'application/msword'],
+            ['document1.ott', 'application/vnd.oasis.opendocument.text-template'],
+            ['m1.mp3', 'audio/mpeg'],
+            ['sample.pdf', 'application/pdf'],
+            ['page.html', 'text/html'],
+            ['spreadsheet1.ods', 'application/vnd.oasis.opendocument.spreadsheet'],
+            ['spreadsheet1.xls', 'application/vnd.ms-excel'],
+            ['styles.css', 'text/css']
+        ];
+    }
 }
