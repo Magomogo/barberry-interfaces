@@ -52,4 +52,9 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase {
             ContentType::byString("Article_Number\tPrice\n1000.1\t99.90")->standardExtension()
         );
     }
+
+    public function testGenericBinaryDataContentTypeIsPossible()
+    {
+        $this->assertSame('application/octet-stream', (string) ContentType::dat('application/octet-stream'));
+    }
 }

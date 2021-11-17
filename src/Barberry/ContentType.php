@@ -29,6 +29,7 @@ use finfo;
  * @method string ico($mime = '') static
  * @method string css($mime = '') static
  * @method string html($mime = '') static
+ * @method string dat($mime = '') static
  *
  * @package Barberry
  */
@@ -74,7 +75,8 @@ class ContentType
         'ico' => array('image/x-icon', 'image/vnd.microsoft.icon'),
         'css' => 'text/css',
         'html' => 'text/html',
-        'nws' => 'message/news'
+        'nws' => 'message/news',
+        'dat' => 'application/octet-stream'
     );
 
     private $contentTypeString;
