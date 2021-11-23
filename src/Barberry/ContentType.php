@@ -28,6 +28,7 @@ namespace Barberry;
  * @method string ico($mime = '') static
  * @method string css($mime = '') static
  * @method string html($mime = '') static
+ * @method string microsoft($mime = '') static
  *
  * @package Barberry
  */
@@ -73,7 +74,8 @@ class ContentType
         'ico' => array('image/x-icon', 'image/vnd.microsoft.icon'),
         'css' => 'text/css',
         'html' => 'text/html',
-        'nws' => 'message/news'
+        'nws' => 'message/news',
+        'microsoft' => 'application/CDFV2' // all we know about this file that it's something microsoftish
     );
 
     private $contentTypeString;

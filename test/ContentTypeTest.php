@@ -78,7 +78,14 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase
             ['sample.pdf', 'application/pdf'],
             ['page.html', 'text/html'],
             ['spreadsheet1.ods', 'application/vnd.oasis.opendocument.spreadsheet'],
-            ['styles.css', 'text/css']
+            ['styles.css', 'text/css'],
+            ['excel97.xls', 'application/CDFV2']
         ];
     }
+
+    public function testCDFV2FilesHaveNoStandardExtension()
+    {
+        $this->assertEquals('microsoft', ContentType::byFilename(__DIR__ . '/data/excel97.xls')->standardExtension());
+    }
+
 }
