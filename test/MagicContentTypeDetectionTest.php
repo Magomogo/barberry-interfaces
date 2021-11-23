@@ -93,4 +93,17 @@ class MagicContentTypeDetectionTest extends \PHPUnit_Framework_TestCase {
             )
         );
     }
+
+    public function testCDFV2Format()
+    {
+        $contentType = ContentType::byFilename(__DIR__ . '/data/excel97.xls');
+
+        $this->assertThat(
+            $contentType,
+            $this->logicalOr(
+                $this->equalTo(ContentType::microsoft('application/CDFV2')),
+                $this->equalTo(ContentType::microsoft('application/vnd.ms-office'))
+            )
+        );
+    }
 }
