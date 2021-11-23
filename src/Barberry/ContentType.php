@@ -75,7 +75,7 @@ class ContentType
         'css' => 'text/css',
         'html' => 'text/html',
         'nws' => 'message/news',
-        'microsoft' => 'application/CDFV2' // all we know about this file that it's something microsoftish
+        'microsoft' => array('application/CDFV2', 'application/vnd.ms-office') // all we know about this file that it's something microsoftish
     );
 
     private $contentTypeString;
