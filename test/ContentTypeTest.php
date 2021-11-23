@@ -82,9 +82,9 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testCDFV2FilesHaveNoStandardExtension()
+    public function testCDFV2FilesGetsRecognisedAsExcel()
     {
-        $this->assertEquals('microsoft', ContentType::byFilename(__DIR__ . '/data/excel97.xls')->standardExtension());
+        $this->assertEquals('xls', ContentType::byFilename(__DIR__ . '/data/excel97.xls')->standardExtension());
     }
 
 }

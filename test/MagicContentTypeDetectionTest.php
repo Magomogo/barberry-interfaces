@@ -101,8 +101,9 @@ class MagicContentTypeDetectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertThat(
             $contentType,
             $this->logicalOr(
-                $this->equalTo(ContentType::microsoft('application/CDFV2')),
-                $this->equalTo(ContentType::microsoft('application/vnd.ms-office'))
+                $this->equalTo(ContentType::xls('application/vnd.ms-excel')),
+                $this->equalTo(ContentType::xls('application/vnd.ms-office')),
+                $this->equalTo(ContentType::xls('application/CDFV2'))
             )
         );
     }

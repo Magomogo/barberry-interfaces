@@ -28,7 +28,6 @@ namespace Barberry;
  * @method string ico($mime = '') static
  * @method string css($mime = '') static
  * @method string html($mime = '') static
- * @method string microsoft($mime = '') static
  *
  * @package Barberry
  */
@@ -60,7 +59,7 @@ class ContentType
         'ots' => 'application/vnd.oasis.opendocument.spreadsheet-template',
         'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
         'txt' => 'text/plain',
-        'xls' => 'application/vnd.ms-excel',
+        'xls' => array ('application/vnd.ms-excel', 'application/vnd.ms-office', 'application/CDFV2'),
         'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         'doc' => array('application/vnd.ms-word', 'application/msword'),
         'docx' => array(
@@ -74,8 +73,7 @@ class ContentType
         'ico' => array('image/x-icon', 'image/vnd.microsoft.icon'),
         'css' => 'text/css',
         'html' => 'text/html',
-        'nws' => 'message/news',
-        'microsoft' => array('application/CDFV2', 'application/vnd.ms-office') // all we know about this file that it's something microsoftish
+        'nws' => 'message/news'
     );
 
     private $contentTypeString;
