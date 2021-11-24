@@ -1,6 +1,7 @@
 <?php
 namespace Barberry\Direction;
 use Mockery as m;
+use Barberry\Plugin\InterfaceCommand;
 
 class DirectionAbstractTest extends \PHPUnit_Framework_TestCase {
 
@@ -10,7 +11,7 @@ class DirectionAbstractTest extends \PHPUnit_Framework_TestCase {
         $direction = new TestDirection('string_command');
         $direction->getConverter()
             ->shouldReceive('convert')
-            ->with('010101', m::type('\\Barberry\\Plugin\\InterfaceCommand')
+            ->with('010101', m::type(InterfaceCommand::class)
         );
 
         $direction->convert('010101');
@@ -22,7 +23,7 @@ class DirectionAbstractTest extends \PHPUnit_Framework_TestCase {
 class TestDirection extends DirectionAbstract {
     public function init($commandString = null) {
         $this->converter = m::mock();
-        $this->command = m::mock('\\Barberry\\Plugin\\InterfaceCommand');
+        $this->command = m::mock(InterfaceCommand::class);
     }
 
     /**

@@ -16,30 +16,30 @@ class MagicContentTypeDetectionTest extends \PHPUnit_Framework_TestCase {
     }
 
     public static function filesAndItsContentTypes() {
-        return array(
-            array(ContentType::gif(), '1x1.gif'),
-            array(ContentType::bmp(), '1x1.bmp'),
-            array(ContentType::ott(), 'document1.ott'),
-            array(ContentType::ots(), 'spreadsheet1.ots'),
-            array(ContentType::xls(), 'spreadsheet1.xls'),
-            array(ContentType::ods(), 'spreadsheet1.ods'),
-            array(ContentType::odt(), 'document1.odt'),
-            array(ContentType::pdf(), 'sample.pdf'),
-            array(ContentType::url(), 'xiag.url'),
-            array(ContentType::webm(), 'test.webm'),
-            array(ContentType::mkv(), 'test.mkv'),
-            array(ContentType::mp3(), 'm1.mp3'),
-            array(ContentType::mp3(), 'm2.mp3'),
-            array(ContentType::mp3(), 'm2_5.mp3'),
-            array(ContentType::mp3('audio/x-wav'), 'sample.MP3'),
-            array(ContentType::tiff(), '1x1.tiff'),
-            array(ContentType::jpeg(), '536208.gif'),
-            array(ContentType::png(), '107650.png'),
-            array(ContentType::doc('application/msword'), 'chips.doc'),
-            array(ContentType::css(), 'styles.css'),
-            array(ContentType::html(), 'page.html'),
-            array(ContentType::xlsx(), 'spreadsheet1.xlsx'),
-        );
+        return [
+            [ContentType::gif(), '1x1.gif'],
+            [ContentType::bmp(), '1x1.bmp'],
+            [ContentType::ott(), 'document1.ott'],
+            [ContentType::ots(), 'spreadsheet1.ots'],
+            [ContentType::xls(), 'spreadsheet1.xls'],
+            [ContentType::ods(), 'spreadsheet1.ods'],
+            [ContentType::odt(), 'document1.odt'],
+            [ContentType::pdf(), 'sample.pdf'],
+            [ContentType::url(), 'xiag.url'],
+            [ContentType::webm(), 'test.webm'],
+            [ContentType::mkv(), 'test.mkv'],
+            [ContentType::mp3(), 'm1.mp3'],
+            [ContentType::mp3(), 'm2.mp3'],
+            [ContentType::mp3(), 'm2_5.mp3'],
+            [ContentType::mp3('audio/x-wav'), 'sample.MP3'],
+            [ContentType::tiff(), '1x1.tiff'],
+            [ContentType::jpeg(), '536208.gif'],
+            [ContentType::png(), '107650.png'],
+            [ContentType::doc('application/msword'), 'chips.doc'],
+            [ContentType::css(), 'styles.css'],
+            [ContentType::html(), 'page.html'],
+            [ContentType::xlsx(), 'spreadsheet1.xlsx'],
+        ];
     }
 
     public function testOgvFormat()

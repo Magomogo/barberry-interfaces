@@ -33,7 +33,7 @@ namespace Barberry;
  */
 class ContentType
 {
-    private static $extensionMap = array(
+    private static $extensionMap = [
         'jpg' => 'image/jpeg',
         'jpeg' => 'image/jpeg',
         'gif' => 'image/gif',
@@ -49,7 +49,7 @@ class ContentType
         'mp4' => 'video/mp4',
         'mov' => 'video/quicktime',
         'qt' => 'video/quicktime',
-        'ogv' => array('application/ogg', 'video/ogg'),
+        'ogv' => ['application/ogg', 'video/ogg'],
         '3gp' => 'video/3gpp',
         '_3gp' => 'video/3gpp',
         'json' => 'application/json',
@@ -59,22 +59,22 @@ class ContentType
         'ots' => 'application/vnd.oasis.opendocument.spreadsheet-template',
         'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
         'txt' => 'text/plain',
-        'xls' => array ('application/vnd.ms-excel', 'application/vnd.ms-office', 'application/CDFV2'),
+        'xls' => ['application/vnd.ms-excel', 'application/vnd.ms-office', 'application/CDFV2'],
         'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        'doc' => array('application/vnd.ms-word', 'application/msword'),
-        'docx' => array(
+        'doc' => ['application/vnd.ms-word', 'application/msword'],
+        'docx' => [
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
             'application/vnd.openxmlformats.wordprocessingml.document'
-        ),
+        ],
         'pdf' => 'application/pdf',
         'url' => 'text/url',
-        'mp3' => array('audio/mpeg', 'audio/x-mpeg', 'audio/mpeg3', 'audio/x-mpeg-3', 'audio/wav', 'audio/x-wav'),
+        'mp3' => ['audio/mpeg', 'audio/x-mpeg', 'audio/mpeg3', 'audio/x-mpeg-3', 'audio/wav', 'audio/x-wav'],
         'bmp' => 'image/x-ms-bmp',
-        'ico' => array('image/x-icon', 'image/vnd.microsoft.icon'),
+        'ico' => ['image/x-icon', 'image/vnd.microsoft.icon'],
         'css' => 'text/css',
         'html' => 'text/html',
         'nws' => 'message/news'
-    );
+    ];
 
     private $contentTypeString;
 
@@ -88,7 +88,7 @@ class ContentType
             return self::byExtension($method);
         }
 
-        throw new \Exception("Undefined method " . get_called_class() . "::{$method}() called.");
+        throw new \Exception("Undefined method " . static::class . "::{$method}() called.");
     }
 
     public static function byExtension($ext, $mime = '')
