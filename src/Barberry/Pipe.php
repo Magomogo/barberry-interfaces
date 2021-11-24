@@ -23,15 +23,15 @@ class Pipe
         $pipes = null;
         $proc = proc_open(
             $this->command,
-            array(
-                0 => array("pipe", 'r'), // stdin
-                1 => array("pipe", "w"), // stdout
-                2 => array("pipe", "w") // stderr
-            ),
+            [
+                0 => ["pipe", 'r'], // stdin
+                1 => ["pipe", "w"], // stdout
+                2 => ["pipe", "w"] // stderr
+            ],
             $pipes,
             null,
             null,
-            array('binary_pipes' => true)
+            ['binary_pipes' => true]
         );
 
         if (is_resource($proc)) {
@@ -54,8 +54,8 @@ class Pipe
 
             return $output;
 
-        } else {
-            throw new Pipe\Exception('Cannot proc_open(' . $this->command . ')');
         }
+
+        throw new Pipe\Exception('Cannot proc_open(' . $this->command . ')');
     }
 }

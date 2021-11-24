@@ -6,7 +6,7 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase
 {
     public function testThrowsWhenExceptionIsNotKnown()
     {
-        $this->expectException('Barberry\ContentType\Exception');
+        $this->expectException(ContentType\Exception::class);
         ContentType::byExtension('boo');
     }
 
@@ -78,7 +78,13 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase
             ['sample.pdf', 'application/pdf'],
             ['page.html', 'text/html'],
             ['spreadsheet1.ods', 'application/vnd.oasis.opendocument.spreadsheet'],
-            ['styles.css', 'text/css']
+            ['styles.css', 'text/css'],
         ];
     }
+
+    public function testCDFV2FilesGetsRecognisedAsExcel()
+    {
+        $this->assertEquals('xls', ContentType::byFilename(__DIR__ . '/data/excel97.xls')->standardExtension());
+    }
+
 }
