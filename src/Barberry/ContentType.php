@@ -73,7 +73,8 @@ class ContentType
         'ico' => ['image/x-icon', 'image/vnd.microsoft.icon'],
         'css' => 'text/css',
         'html' => 'text/html',
-        'nws' => 'message/news'
+        'nws' => 'message/news',
+        'bin' => 'application/octet-stream'
     ];
 
     private $contentTypeString;
