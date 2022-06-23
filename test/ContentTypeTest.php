@@ -2,58 +2,60 @@
 
 namespace Barberry;
 
-class ContentTypeTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ContentTypeTest extends TestCase
 {
-    public function testThrowsWhenExceptionIsNotKnown()
+    public function testThrowsWhenExceptionIsNotKnown(): void
     {
         $this->expectException(ContentType\Exception::class);
         ContentType::byExtension('boo');
     }
 
-    public function testIsJpegCreatedByExtension()
+    public function testIsJpegCreatedByExtension(): void
     {
-        $this->assertEquals(
+        self::assertEquals(
             'jpg',
             ContentType::byExtension('jpg')->standardExtension()
         );
     }
 
-    public function testContentTypeHasStandardExtension()
+    public function testContentTypeHasStandardExtension(): void
     {
-        ContentType::byExtension('jpg')->standardExtension();
+        self::assertEquals('jpg', ContentType::byExtension('jpg')->standardExtension());
     }
 
-    public function testIsPhpCreatedByContentTypeString()
+    public function testIsPhpCreatedByContentTypeString(): void
     {
-        $this->assertEquals(
+        self::assertEquals(
             'php',
             ContentType::byString(file_get_contents(__FILE__))->standardExtension()
         );
     }
 
-    public function testMagicallyBecomesAString()
+    public function testMagicallyBecomesAString(): void
     {
-        $this->assertEquals('image/jpeg', (string) ContentType::jpeg());
+        self::assertEquals('image/jpeg', (string) ContentType::jpeg());
     }
 
-    public function testConcreteMime()
+    public function testConcreteMime(): void
     {
-        $this->assertEquals('audio/x-wav', (string) ContentType::byString(file_get_contents(__DIR__ . '/data/sample.MP3')));
+        self::assertEquals('audio/x-wav', (string) ContentType::byString(file_get_contents(__DIR__ . '/data/sample.MP3')));
     }
 
-    public function testTakesFirstWhenThereAreSeveralContentTypesPossible()
+    public function testTakesFirstWhenThereAreSeveralContentTypesPossible(): void
     {
-        $this->assertSame('image/x-icon', (string) ContentType::ico());
+        self::assertSame('image/x-icon', (string) ContentType::ico());
     }
 
-    public function testSpecialContentTypeIsPossible()
+    public function testSpecialContentTypeIsPossible(): void
     {
-        $this->assertSame('image/vnd.microsoft.icon', (string) ContentType::ico('image/vnd.microsoft.icon'));
+        self::assertSame('image/vnd.microsoft.icon', (string) ContentType::ico('image/vnd.microsoft.icon'));
     }
 
-    public function testAcceptContentConsideredAsMessageNews()
+    public function testAcceptContentConsideredAsMessageNews(): void
     {
-        $this->assertEquals(
+        self::assertEquals(
             'nws',
             ContentType::byString("Article_Number\tPrice\n1000.1\t99.90")->standardExtension()
         );
@@ -62,12 +64,12 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider contentTypeByFilenames
      */
-    public function testContentTypeByFilename($filename, $type)
+    public function testContentTypeByFilename($filename, $type): void
     {
-        $this->assertEquals($type, (string) ContentType::byFilename(__DIR__ . '/data/' . $filename));
+        self::assertEquals($type, (string) ContentType::byFilename(__DIR__ . '/data/' . $filename));
     }
 
-    public static function contentTypeByFilenames()
+    public static function contentTypeByFilenames(): array
     {
         return [
             ['1x1.bmp', 'image/x-ms-bmp'],
@@ -83,9 +85,9 @@ class ContentTypeTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testCDFV2FilesGetsRecognisedAsExcel()
+    public function testCDFV2FilesGetsRecognisedAsExcel(): void
     {
-        $this->assertEquals('xls', ContentType::byFilename(__DIR__ . '/data/excel97.xls')->standardExtension());
+        self::assertEquals('xls', ContentType::byFilename(__DIR__ . '/data/excel97.xls')->standardExtension());
     }
 
 }

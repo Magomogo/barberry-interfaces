@@ -15,11 +15,11 @@
         "psr-0": {"Barberry": "src/"}
     },
     "require": {
-        "php": "^5.6 || ^7.0 || ^8.0",
+        "php": ">=7.3",
         "ext-fileinfo": "*"
     },
     "require-dev": {
         "mockery/mockery": "^1.0",
-        "phpunit/phpunit": "^5.7"
+        "phpunit/phpunit": "^9"
     }
 }

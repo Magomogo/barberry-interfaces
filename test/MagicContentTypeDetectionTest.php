@@ -1,15 +1,18 @@
 <?php
 namespace Barberry;
 
-class MagicContentTypeDetectionTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
 
+class MagicContentTypeDetectionTest extends TestCase
+{
     /**
      * @param string $expectedContentType
      * @param string $fileName
      * @dataProvider filesAndItsContentTypes
      */
-    public function testPortableDocumentFormat($expectedContentType, $fileName) {
-        $this->assertEquals(
+    public function testPortableDocumentFormat($expectedContentType, $fileName): void
+    {
+        self::assertEquals(
             $expectedContentType,
             ContentType::byString(file_get_contents(__DIR__ . '/data/' . $fileName))
         );
@@ -42,7 +45,7 @@ class MagicContentTypeDetectionTest extends \PHPUnit_Framework_TestCase {
         ];
     }
 
-    public function testOgvFormat()
+    public function testOgvFormat(): void
     {
         $contentType = ContentType::byString(file_get_contents(__DIR__ . '/data/test.ogv'));
 
@@ -55,7 +58,7 @@ class MagicContentTypeDetectionTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    public function testDocxFormat()
+    public function testDocxFormat(): void
     {
         $contentType = ContentType::byString(file_get_contents(__DIR__ . '/data/9011.docx'));
 
@@ -68,7 +71,7 @@ class MagicContentTypeDetectionTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    public function testDocFormat()
+    public function testDocFormat(): void
     {
         $contentType = ContentType::byString(file_get_contents(__DIR__ . '/data/document1.doc'));
 
@@ -81,7 +84,7 @@ class MagicContentTypeDetectionTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    public function testIconFormat()
+    public function testIconFormat(): void
     {
         $contentType = ContentType::byString(file_get_contents(__DIR__ . '/data/favicon.ico'));
 
@@ -94,7 +97,7 @@ class MagicContentTypeDetectionTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    public function testCDFV2Format()
+    public function testCDFV2Format(): void
     {
         $contentType = ContentType::byFilename(__DIR__ . '/data/excel97.xls');
 
