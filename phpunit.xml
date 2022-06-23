@@ -6,17 +6,10 @@
          convertWarningsToExceptions="true"
          processIsolation="false"
          stopOnFailure="false"
-         syntaxCheck="false"
          bootstrap="vendor/autoload.php">
 
-    <filter>
-        <whitelist>
-            <directory>./src/Barberry/</directory>
-        </whitelist>
-    </filter>
-
     <testsuites>
-        <testsuite>
+        <testsuite name="Tests">
             <directory>test</directory>
         </testsuite>
     </testsuites>
