@@ -192,7 +192,9 @@ class ContentType
 
     private static function fileinfo()
     {
-        if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
+        if (version_compare(PHP_VERSION, '8.1.0') >= 0) {
+            $magic_mime_path = __DIR__ . '/ContentType/magic-5.40.mime.mgc';
+        } elseif (version_compare(PHP_VERSION, '8.0.0') >= 0) {
             $magic_mime_path = __DIR__ . '/ContentType/magic-5.39.mime.mgc';
         } elseif (version_compare(PHP_VERSION, '7.4.0') >= 0) {
             $magic_mime_path = __DIR__ . '/ContentType/magic-5.37.mime.mgc';
