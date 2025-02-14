@@ -64,17 +64,17 @@ class ContentType
         'doc' => ['application/vnd.ms-word', 'application/msword'],
         'docx' => [
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'application/vnd.openxmlformats.wordprocessingml.document'
+            'application/vnd.openxmlformats.wordprocessingml.document',
         ],
         'pdf' => 'application/pdf',
         'url' => 'text/url',
         'mp3' => ['audio/mpeg', 'audio/x-mpeg', 'audio/mpeg3', 'audio/x-mpeg-3', 'audio/wav', 'audio/x-wav'],
-        'bmp' => 'image/x-ms-bmp',
+        'bmp' => ['image/bmp', 'image/x-ms-bmp'],
         'ico' => ['image/x-icon', 'image/vnd.microsoft.icon'],
         'css' => 'text/css',
         'html' => 'text/html',
         'nws' => 'message/news',
-        'bin' => 'application/octet-stream'
+        'bin' => 'application/octet-stream',
     ];
 
     private $contentTypeString;
@@ -84,7 +84,7 @@ class ContentType
         $mime = self::$extensionMap[$method];
         if (isset($mime)) {
             if (!empty($args) && is_array($mime)) {
-                return self::byExtension($method, (string) array_shift($args));
+                return self::byExtension($method, (string)array_shift($args));
             }
             return self::byExtension($method);
         }
@@ -95,7 +95,7 @@ class ContentType
     public static function byExtension($ext, $mime = '')
     {
         if (isset(self::$extensionMap[$ext])) {
-            $map = (array) self::$extensionMap[$ext];
+            $map = (array)self::$extensionMap[$ext];
             if (empty($mime)) {
                 $mime = array_shift($map);
             } elseif (!in_array($mime, $map)) {
@@ -119,7 +119,7 @@ class ContentType
     public static function byString($content)
     {
         return self::buildForType(
-            self::contentTypeByString($content)
+            self::contentTypeByString($content),
         );
     }
 
@@ -131,7 +131,7 @@ class ContentType
     public static function byFilename($filename)
     {
         return self::buildForType(
-            self::contentTypeByFilename($filename)
+            self::contentTypeByFilename($filename),
         );
     }
 
@@ -153,7 +153,7 @@ class ContentType
     private static function getExtensionByContentType($contentType)
     {
         foreach (self::$extensionMap as $ext => $mime) {
-            if (in_array($contentType, (array) $mime)) {
+            if (in_array($contentType, (array)$mime)) {
                 return $ext;
             }
         }
@@ -168,7 +168,7 @@ class ContentType
     public function standardExtension()
     {
         foreach (self::$extensionMap as $ext => $contentTypeStringArray) {
-            if (in_array($this->contentTypeString, (array) $contentTypeStringArray)) {
+            if (in_array($this->contentTypeString, (array)$contentTypeStringArray)) {
                 return $ext;
             }
         }
@@ -192,25 +192,11 @@ class ContentType
 
     private static function fileinfo()
     {
-        if (version_compare(PHP_VERSION, '8.1.0') >= 0) {
-            $magic_mime_path = __DIR__ . '/ContentType/magic-5.40.mime.mgc';
-        } elseif (version_compare(PHP_VERSION, '8.0.0') >= 0) {
-            $magic_mime_path = __DIR__ . '/ContentType/magic-5.39.mime.mgc';
-        } elseif (version_compare(PHP_VERSION, '7.4.0') >= 0) {
-            $magic_mime_path = __DIR__ . '/ContentType/magic-5.37.mime.mgc';
-        } elseif (version_compare(PHP_VERSION, '7.3.0') >= 0) {
-            $magic_mime_path = __DIR__ . '/ContentType/magic-5.33.mime.mgc';
-        } elseif (version_compare(PHP_VERSION, '7.2.0') >= 0) {
-            $magic_mime_path = __DIR__ . '/ContentType/magic-5.31.mime.mgc';
-        } elseif (version_compare(PHP_VERSION, '7.0.0') >= 0) {
-            $magic_mime_path = __DIR__ . '/ContentType/magic-5.22.mime.mgc';
-        } else {
-            $magic_mime_path = __DIR__ . '/ContentType/magic-5.17.mime.mgc';
-        }
+        return new \finfo(FILEINFO_MIME_TYPE);
+    }
 
-        return new \finfo(
-            FILEINFO_MIME ^ FILEINFO_MIME_ENCODING,
-            $magic_mime_path
-        );
+    public static function byMime($mime): self
+    {
+        return new self($mime);
     }
 }

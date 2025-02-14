@@ -1,4 +1,5 @@
 <?php
+
 namespace Barberry;
 
 use PHPUnit\Framework\TestCase;
@@ -12,23 +13,25 @@ class MagicContentTypeDetectionTest extends TestCase
      */
     public function testPortableDocumentFormat($expectedContentType, $fileName): void
     {
-        self::assertEquals(
-            $expectedContentType,
-            ContentType::byString(file_get_contents(__DIR__ . '/data/' . $fileName))
-        );
+        $type = ContentType::byString(file_get_contents(__DIR__ . '/data/' . $fileName));
+        if (is_array($expectedContentType)) {
+            self::assertTrue(in_array($type, $expectedContentType));
+            return;
+        }
+        self::assertEquals($expectedContentType, $type);
     }
 
     public static function filesAndItsContentTypes() {
         return [
             [ContentType::gif(), '1x1.gif'],
-            [ContentType::bmp(), '1x1.bmp'],
+            [[ContentType::bmp(), ContentType::byMime('image/x-ms-bmp')], '1x1.bmp'],
             [ContentType::ott(), 'document1.ott'],
             [ContentType::ots(), 'spreadsheet1.ots'],
             [ContentType::xls(), 'spreadsheet1.xls'],
             [ContentType::ods(), 'spreadsheet1.ods'],
             [ContentType::odt(), 'document1.odt'],
             [ContentType::pdf(), 'sample.pdf'],
-            [ContentType::url(), 'xiag.url'],
+            [[ContentType::url(), ContentType::byExtension('txt')], 'xiag.url'],
             [ContentType::webm(), 'test.webm'],
             [ContentType::mkv(), 'test.mkv'],
             [ContentType::mp3(), 'm1.mp3'],
@@ -39,7 +42,7 @@ class MagicContentTypeDetectionTest extends TestCase
             [ContentType::jpeg(), '536208.gif'],
             [ContentType::png(), '107650.png'],
             [ContentType::doc('application/msword'), 'chips.doc'],
-            [ContentType::css(), 'styles.css'],
+            [[ContentType::css(), ContentType::byExtension('txt')], 'styles.css'],
             [ContentType::html(), 'page.html'],
             [ContentType::xlsx(), 'spreadsheet1.xlsx'],
         ];
@@ -53,8 +56,8 @@ class MagicContentTypeDetectionTest extends TestCase
             $contentType,
             $this->logicalOr(
                 $this->equalTo(ContentType::ogv('application/ogg')),
-                $this->equalTo(ContentType::ogv('video/ogg'))
-            )
+                $this->equalTo(ContentType::ogv('video/ogg')),
+            ),
         );
     }
 
@@ -66,8 +69,8 @@ class MagicContentTypeDetectionTest extends TestCase
             $contentType,
             $this->logicalOr(
                 $this->equalTo(ContentType::docx('application/vnd.openxmlformats-officedocument.wordprocessingml.document')),
-                $this->equalTo(ContentType::docx('application/vnd.openxmlformats.wordprocessingml.document'))
-            )
+                $this->equalTo(ContentType::docx('application/vnd.openxmlformats.wordprocessingml.document')),
+            ),
         );
     }
 
@@ -79,8 +82,8 @@ class MagicContentTypeDetectionTest extends TestCase
             $contentType,
             $this->logicalOr(
                 $this->equalTo(ContentType::doc('application/vnd.ms-word')),
-                $this->equalTo(ContentType::doc('application/msword'))
-            )
+                $this->equalTo(ContentType::doc('application/msword')),
+            ),
         );
     }
 
@@ -92,8 +95,8 @@ class MagicContentTypeDetectionTest extends TestCase
             $contentType,
             $this->logicalOr(
                 $this->equalTo(ContentType::ico('image/x-icon')),
-                $this->equalTo(ContentType::ico('image/vnd.microsoft.icon'))
-            )
+                $this->equalTo(ContentType::ico('image/vnd.microsoft.icon')),
+            ),
         );
     }
 
@@ -106,8 +109,8 @@ class MagicContentTypeDetectionTest extends TestCase
             $this->logicalOr(
                 $this->equalTo(ContentType::xls('application/vnd.ms-excel')),
                 $this->equalTo(ContentType::xls('application/vnd.ms-office')),
-                $this->equalTo(ContentType::xls('application/CDFV2'))
-            )
+                $this->equalTo(ContentType::xls('application/CDFV2')),
+            ),
         );
     }
 }

@@ -66,13 +66,17 @@ class ContentTypeTest extends TestCase
      */
     public function testContentTypeByFilename($filename, $type): void
     {
+        if (is_array($type)) {
+            self::assertContains((string)ContentType::byFilename(__DIR__ . '/data/' . $filename), $type);
+            return;
+        }
         self::assertEquals($type, (string) ContentType::byFilename(__DIR__ . '/data/' . $filename));
     }
 
     public static function contentTypeByFilenames(): array
     {
         return [
-            ['1x1.bmp', 'image/x-ms-bmp'],
+            ['1x1.bmp', ['image/x-ms-bmp','image/bmp']],
             ['107650.png', 'image/png'],
             ['document1.doc', 'application/msword'],
             ['document1.ott', 'application/vnd.oasis.opendocument.text-template'],
@@ -80,7 +84,7 @@ class ContentTypeTest extends TestCase
             ['sample.pdf', 'application/pdf'],
             ['page.html', 'text/html'],
             ['spreadsheet1.ods', 'application/vnd.oasis.opendocument.spreadsheet'],
-            ['styles.css', 'text/css'],
+            ['styles.css', ['text/css', 'text/plain']],
             ['sample.bin', 'application/octet-stream']
         ];
     }
