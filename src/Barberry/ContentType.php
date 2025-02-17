@@ -215,4 +215,9 @@ class ContentType
             $magic_mime_path
         );
     }
+
+    public static function byMime(string $mime): self
+    {
+        return new self($mime);
+    }
 }
