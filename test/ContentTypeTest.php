@@ -72,7 +72,7 @@ class ContentTypeTest extends TestCase
     public static function contentTypeByFilenames(): array
     {
         return [
-            ['1x1.bmp', 'image/x-ms-bmp'],
+            ['1x1.bmp', 'image/bmp'],
             ['107650.png', 'image/png'],
             ['document1.doc', 'application/msword'],
             ['document1.ott', 'application/vnd.oasis.opendocument.text-template'],

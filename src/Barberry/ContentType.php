@@ -69,7 +69,7 @@ class ContentType
         'pdf' => 'application/pdf',
         'url' => 'text/url',
         'mp3' => ['audio/mpeg', 'audio/x-mpeg', 'audio/mpeg3', 'audio/x-mpeg-3', 'audio/wav', 'audio/x-wav'],
-        'bmp' => 'image/x-ms-bmp',
+        'bmp' => ['image/bmp', 'image/x-ms-bmp'],
         'ico' => ['image/x-icon', 'image/vnd.microsoft.icon'],
         'css' => 'text/css',
         'html' => 'text/html',
@@ -192,7 +192,9 @@ class ContentType
 
     private static function fileinfo()
     {
-        if (version_compare(PHP_VERSION, '8.1.0') >= 0) {
+        if (version_compare(PHP_VERSION, '8.3.0') >= 0) {
+            $magic_mime_path = __DIR__ . '/ContentType/magic-5.43.mime.mgc'; // https://github.com/Magomogo/barberry-magic-build
+        } elseif (version_compare(PHP_VERSION, '8.1.0') >= 0) {
             $magic_mime_path = __DIR__ . '/ContentType/magic-5.40.mime.mgc';
         } elseif (version_compare(PHP_VERSION, '8.0.0') >= 0) {
             $magic_mime_path = __DIR__ . '/ContentType/magic-5.39.mime.mgc';
