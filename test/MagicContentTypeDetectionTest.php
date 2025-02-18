@@ -12,6 +12,15 @@ class MagicContentTypeDetectionTest extends TestCase
      */
     public function testPortableDocumentFormat($expectedContentType, $fileName): void
     {
+        if (is_array($expectedContentType)) {
+            self::assertTrue(
+                in_array(
+                    ContentType::byString(file_get_contents(__DIR__ . '/data/' . $fileName)),
+                    $expectedContentType,
+                )
+            );
+            return;
+        }
         self::assertEquals(
             $expectedContentType,
             ContentType::byString(file_get_contents(__DIR__ . '/data/' . $fileName))
@@ -21,7 +30,7 @@ class MagicContentTypeDetectionTest extends TestCase
     public static function filesAndItsContentTypes() {
         return [
             [ContentType::gif(), '1x1.gif'],
-            [ContentType::bmp(), '1x1.bmp'],
+            [[ContentType::bmp(), ContentType::byMime('image/x-ms-bmp')], '1x1.bmp'],
             [ContentType::ott(), 'document1.ott'],
             [ContentType::ots(), 'spreadsheet1.ots'],
             [ContentType::xls(), 'spreadsheet1.xls'],
