@@ -59,6 +59,7 @@ class ContentType
         'ots' => 'application/vnd.oasis.opendocument.spreadsheet-template',
         'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
         'txt' => 'text/plain',
+        'csv' => 'text/csv',
         'xls' => ['application/vnd.ms-excel', 'application/vnd.ms-office', 'application/CDFV2'],
         'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         'doc' => ['application/vnd.ms-word', 'application/msword'],
