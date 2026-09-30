@@ -16,7 +16,8 @@
     },
     "require": {
         "php": ">=7.3",
-        "ext-fileinfo": "*"
+        "ext-fileinfo": "*",
+        "ext-iconv": "*"
     },
     "require-dev": {
         "mockery/mockery": "^1.0",

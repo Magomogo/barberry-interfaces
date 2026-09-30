@@ -131,9 +131,11 @@ class ContentType
      */
     public static function byFilename($filename)
     {
-        return self::buildForType(
+        $contentType = self::buildForType(
             self::contentTypeByFilename($filename)
         );
+
+        return ContentTypeDetector::detectFile($contentType, $filename);
     }
 
     /**
