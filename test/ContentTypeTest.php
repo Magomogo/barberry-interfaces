@@ -69,13 +69,13 @@ class ContentTypeTest extends TestCase
         if (is_array($type)) {
             self::assertTrue(
                 in_array(
-                    ContentType::byFilename(__DIR__ . '/data/' . $filename),
+                    ContentType::byFilename(__DIR__ . '/data/' . $filename, self::detector()),
                     $type,
                 ),
             );
             return;
         }
-        self::assertEquals($type, (string) ContentType::byFilename(__DIR__ . '/data/' . $filename));
+        self::assertEquals($type, (string) ContentType::byFilename(__DIR__ . '/data/' . $filename, self::detector()));
     }
 
     public static function contentTypeByFilenames(): array
@@ -96,7 +96,12 @@ class ContentTypeTest extends TestCase
 
     public function testCDFV2FilesGetsRecognisedAsExcel(): void
     {
-        self::assertEquals('xls', ContentType::byFilename(__DIR__ . '/data/excel97.xls')->standardExtension());
+        self::assertEquals('xls', ContentType::byFilename(__DIR__ . '/data/excel97.xls', self::detector())->standardExtension());
+    }
+
+    private static function detector(): ContentTypeDetector
+    {
+        return new ContentTypeDetector([]);
     }
 
 }

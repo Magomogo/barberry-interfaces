@@ -108,7 +108,10 @@ class MagicContentTypeDetectionTest extends TestCase
 
     public function testCDFV2Format(): void
     {
-        $contentType = ContentType::byFilename(__DIR__ . '/data/excel97.xls');
+        $contentType = ContentType::byFilename(
+            __DIR__ . '/data/excel97.xls',
+            new ContentTypeDetector([])
+        );
 
         $this->assertThat(
             $contentType,
