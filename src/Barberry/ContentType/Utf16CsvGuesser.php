@@ -4,7 +4,7 @@ namespace Barberry\ContentType;
 
 use Barberry\ContentType;
 
-class Utf16CsvLocator implements LocatorInterface
+class Utf16CsvGuesser implements GuesserInterface
 {
     private const SAMPLE_SIZE = 65536;
 
@@ -16,7 +16,7 @@ class Utf16CsvLocator implements LocatorInterface
         $this->reader = $reader;
     }
 
-    public function locate(string $path): ?ContentType
+    public function guess(string $path): ?ContentType
     {
         $sample = $this->reader->read($path, self::SAMPLE_SIZE);
         if ($sample === null || !$this->isUtf16Csv($sample)) {
