@@ -6,15 +6,20 @@ use PHPUnit\Framework\TestCase;
 
 class Utf16CsvGuesserTest extends TestCase
 {
-    public function testGuessesUtf16Csv(): void
+    /** @dataProvider encodings */
+    public function testGuessesUtf16Csv(string $encoding, string $bom): void
     {
-        $reader = $this->createMock(FileReaderInterface::class);
-        $reader
-            ->expects(self::once())
-            ->method('read')
-            ->with('/tmp/upload', 65536)
-            ->willReturn(iconv('UTF-8', 'UTF-16LE', "article;quantity\nTomato;2\nGarlic;4\n"));
+        $content = $bom . iconv('UTF-8', $encoding, "article;quantity\nTomato;2\nGarlic;4\n");
+        self::assertSame('text/csv', (string) (new Utf16CsvGuesser())->guess($content));
+    }
 
-        self::assertSame('text/csv', (string) (new Utf16CsvGuesser($reader))->guess('/tmp/upload'));
+    public function encodings(): array
+    {
+        return [['UTF-16LE', ''], ['UTF-16BE', ''], ['UTF-16LE', "\xFF\xFE"], ['UTF-16BE', "\xFE\xFF"]];
+    }
+
+    public function testDoesNotGuessNonCsv(): void
+    {
+        self::assertNull((new Utf16CsvGuesser())->guess(iconv('UTF-8', 'UTF-16LE', "just some text\nmore text\n")));
     }
 }

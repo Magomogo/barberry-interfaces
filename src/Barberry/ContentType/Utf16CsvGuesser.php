@@ -6,24 +6,9 @@ use Barberry\ContentType;
 
 class Utf16CsvGuesser implements GuesserInterface
 {
-    private const SAMPLE_SIZE = 65536;
-
-    /** @var FileReaderInterface */
-    private $reader;
-
-    public function __construct(FileReaderInterface $reader)
+    public function guess(string $content): ?ContentType
     {
-        $this->reader = $reader;
-    }
-
-    public function guess(string $path): ?ContentType
-    {
-        $sample = $this->reader->read($path, self::SAMPLE_SIZE);
-        if ($sample === null || !$this->isUtf16Csv($sample)) {
-            return null;
-        }
-
-        return ContentType::csv();
+        return $this->isUtf16Csv($content) ? ContentType::csv() : null;
     }
 
     private function isUtf16Csv(string $content): bool

@@ -78,6 +78,8 @@ class ContentType
         'bin' => 'application/octet-stream'
     ];
 
+    public const SAMPLE_SIZE = 65536;
+
     private $contentTypeString;
 
     public static function __callStatic($method, $args)
@@ -114,26 +116,44 @@ class ContentType
 
     /**
      * @param string $content
+     * @param ContentTypeDetector|null $detector
      * @return ContentType
      * @throws ContentType\Exception
      */
-    public static function byString($content)
+    public static function byString($content, ?ContentTypeDetector $detector = null)
     {
-        return self::buildForType(
-            self::contentTypeByString($content)
-        );
+        $mime = self::contentTypeByString($content);
+        if ($mime === 'application/octet-stream' && $detector !== null) {
+            return self::refine($mime, substr($content, 0, self::SAMPLE_SIZE), $detector);
+        }
+
+        return self::buildForType($mime);
     }
 
     /**
      * @param string $filename
+     * @param ContentTypeDetector|null $detector
      * @return ContentType
      * @throws ContentType\Exception
      */
-    public static function byFilename($filename)
+    public static function byFilename($filename, ?ContentTypeDetector $detector = null)
     {
-        return self::buildForType(
-            self::contentTypeByFilename($filename)
-        );
+        $mime = self::contentTypeByFilename($filename);
+        if ($mime === 'application/octet-stream' && $detector !== null) {
+            $sample = file_get_contents($filename, false, null, 0, self::SAMPLE_SIZE);
+            if ($sample === false) {
+                throw new \RuntimeException('Cannot read file for content type detection: ' . $filename);
+            }
+
+            return self::refine($mime, $sample, $detector);
+        }
+
+        return self::buildForType($mime);
+    }
+
+    private static function refine(string $mime, string $sample, ContentTypeDetector $detector): self
+    {
+        return $detector->detect($sample) ?? self::buildForType($mime);
     }
 
     /**

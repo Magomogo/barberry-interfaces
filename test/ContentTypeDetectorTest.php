@@ -2,24 +2,26 @@
 
 namespace Barberry;
 
-use Barberry\ContentType\Utf16CsvGuesser;
-use Barberry\ContentType\FileReaderInterface;
+use Barberry\ContentType\GuesserInterface;
 use PHPUnit\Framework\TestCase;
 
 class ContentTypeDetectorTest extends TestCase
 {
-    public function testUsesGuesserForGenericFile(): void
+    public function testUsesFirstSuccessfulGuesser(): void
     {
-        $reader = $this->createMock(FileReaderInterface::class);
-        $reader
-            ->method('read')
-            ->willReturn(iconv('UTF-8', 'UTF-16LE', "article;quantity\nTomato;2\nGarlic;4\n"));
+        $first = $this->createMock(GuesserInterface::class);
+        $first->expects(self::once())->method('guess')->with('sample')->willReturn(null);
+        $second = $this->createMock(GuesserInterface::class);
+        $second->expects(self::once())->method('guess')->with('sample')->willReturn(ContentType::csv());
+        $third = $this->createMock(GuesserInterface::class);
+        $third->expects(self::never())->method('guess');
+        self::assertSame('text/csv', (string) (new ContentTypeDetector([$first, $second, $third]))->detect('sample'));
+    }
 
-        $detector = new ContentTypeDetector([new Utf16CsvGuesser($reader)]);
-
-        self::assertSame(
-            'text/csv',
-            (string) $detector->detect('/tmp/upload')
-        );
+    public function testReturnsNullWhenNothingMatches(): void
+    {
+        $guesser = $this->createMock(GuesserInterface::class);
+        $guesser->method('guess')->willReturn(null);
+        self::assertNull((new ContentTypeDetector([$guesser]))->detect('sample'));
     }
 }

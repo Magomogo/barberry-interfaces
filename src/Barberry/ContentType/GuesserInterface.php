@@ -6,5 +6,5 @@ use Barberry\ContentType;
 
 interface GuesserInterface
 {
-    public function guess(string $path): ?ContentType;
+    public function guess(string $content): ?ContentType;
 }

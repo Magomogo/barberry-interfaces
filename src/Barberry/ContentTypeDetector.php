@@ -17,10 +17,10 @@ class ContentTypeDetector
         $this->guessers = $guessers;
     }
 
-    public function detect(string $path): ?ContentType
+    public function detect(string $content): ?ContentType
     {
         foreach ($this->guessers as $guesser) {
-            $guessedContentType = $guesser->guess($path);
+            $guessedContentType = $guesser->guess($content);
             if ($guessedContentType !== null) {
                 return $guessedContentType;
             }
