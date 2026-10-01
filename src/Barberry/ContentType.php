@@ -124,7 +124,7 @@ class ContentType
     {
         $mime = self::contentTypeByString($content);
         if ($mime === 'application/octet-stream' && $detector !== null) {
-            return self::refine($mime, substr($content, 0, self::SAMPLE_SIZE), $detector);
+            return $detector->detect(substr($content, 0, self::SAMPLE_SIZE)) ?? self::buildForType($mime);
         }
 
         return self::buildForType($mime);
@@ -145,15 +145,10 @@ class ContentType
                 throw new \RuntimeException('Cannot read file for content type detection: ' . $filename);
             }
 
-            return self::refine($mime, $sample, $detector);
+            return $detector->detect($sample) ?? self::buildForType($mime);
         }
 
         return self::buildForType($mime);
-    }
-
-    private static function refine(string $mime, string $sample, ContentTypeDetector $detector): self
-    {
-        return $detector->detect($sample) ?? self::buildForType($mime);
     }
 
     /**
