@@ -129,17 +129,11 @@ class ContentType
      * @return ContentType
      * @throws ContentType\Exception
      */
-    public static function byFilename($filename, ContentTypeDetector $detector)
+    public static function byFilename($filename)
     {
-        $contentType = self::buildForType(
+        return self::buildForType(
             self::contentTypeByFilename($filename)
         );
-
-        if ((string) $contentType !== 'application/octet-stream') {
-            return $contentType;
-        }
-
-        return $detector->detect($contentType, $filename);
     }
 
     /**

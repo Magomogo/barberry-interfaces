@@ -2,30 +2,30 @@
 
 namespace Barberry;
 
-use Barberry\ContentType\LocatorInterface;
+use Barberry\ContentType\GuesserInterface;
 
 class ContentTypeDetector
 {
-    /** @var LocatorInterface[] */
-    private $locators;
+    /** @var GuesserInterface[] */
+    private $guessers;
 
     /**
-     * @param LocatorInterface[] $locators
+     * @param GuesserInterface[] $guessers
      */
-    public function __construct(array $locators)
+    public function __construct(array $guessers)
     {
-        $this->locators = $locators;
+        $this->guessers = $guessers;
     }
 
-    public function detect(ContentType $contentType, string $path): ContentType
+    public function detect(string $path): ?ContentType
     {
-        foreach ($this->locators as $locator) {
-            $detectedContentType = $locator->locate($path);
-            if ($detectedContentType !== null) {
-                return $detectedContentType;
+        foreach ($this->guessers as $guesser) {
+            $guessedContentType = $guesser->guess($path);
+            if ($guessedContentType !== null) {
+                return $guessedContentType;
             }
         }
 
-        return $contentType;
+        return null;
     }
 }
