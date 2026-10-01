@@ -4,7 +4,7 @@ namespace Barberry;
 
 use Barberry\ContentType\GuesserInterface;
 
-class ContentTypeDetector
+class TypeDetector
 {
     /** @var GuesserInterface[] */
     private $guessers;
@@ -15,6 +15,14 @@ class ContentTypeDetector
     public function __construct(array $guessers)
     {
         $this->guessers = $guessers;
+    }
+
+    public static function create(): self
+    {
+        return new self([
+            new ContentType\LibmagicGuesser(),
+            new ContentType\Utf16CsvGuesser(),
+        ]);
     }
 
     public function detect(string $content): ?ContentType

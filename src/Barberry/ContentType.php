@@ -78,8 +78,6 @@ class ContentType
         'bin' => 'application/octet-stream'
     ];
 
-    public const SAMPLE_SIZE = 65536;
-
     private $contentTypeString;
 
     public static function __callStatic($method, $args)
@@ -116,64 +114,25 @@ class ContentType
 
     /**
      * @param string $content
-     * @param ContentTypeDetector|null $detector
      * @return ContentType
-     * @throws ContentType\Exception
      */
-    public static function byString($content, ?ContentTypeDetector $detector = null)
+    public static function byString($content)
     {
-        $mime = self::contentTypeByString($content);
-        if ($mime === 'application/octet-stream' && $detector !== null) {
-            return $detector->detect(substr($content, 0, self::SAMPLE_SIZE)) ?? self::buildForType($mime);
-        }
-
-        return self::buildForType($mime);
+        return TypeDetector::create()->detect($content) ?? self::bin();
     }
 
     /**
      * @param string $filename
-     * @param ContentTypeDetector|null $detector
      * @return ContentType
-     * @throws ContentType\Exception
      */
-    public static function byFilename($filename, ?ContentTypeDetector $detector = null)
+    public static function byFilename($filename)
     {
-        $mime = self::contentTypeByFilename($filename);
-        if ($mime === 'application/octet-stream' && $detector !== null) {
-            $sample = file_get_contents($filename, false, null, 0, self::SAMPLE_SIZE);
-            if ($sample === false) {
-                throw new \RuntimeException('Cannot read file for content type detection: ' . $filename);
-            }
-
-            return $detector->detect($sample) ?? self::buildForType($mime);
+        $content = file_get_contents($filename);
+        if ($content === false) {
+            throw new \RuntimeException('Cannot read file for content type detection: ' . $filename);
         }
 
-        return self::buildForType($mime);
-    }
-
-    /**
-     * @param string $contentType
-     * @return ContentType
-     * @throws ContentType\Exception
-     */
-    private static function buildForType($contentType)
-    {
-        $ext = self::getExtensionByContentType($contentType);
-
-        if ($ext !== false) {
-            return new self($contentType);
-        }
-        throw new ContentType\Exception($contentType);
-    }
-
-    private static function getExtensionByContentType($contentType)
-    {
-        foreach (self::$extensionMap as $ext => $mime) {
-            if (in_array($contentType, (array) $mime)) {
-                return $ext;
-            }
-        }
-        return false;
+        return self::byString($content);
     }
 
     private function __construct($contentTypeString)
@@ -194,42 +153,6 @@ class ContentType
     public function __toString()
     {
         return $this->contentTypeString;
-    }
-
-    private static function contentTypeByString($content)
-    {
-        return self::fileinfo()->buffer($content);
-    }
-
-    private static function contentTypeByFilename($filename)
-    {
-        return self::fileinfo()->file($filename);
-    }
-
-    private static function fileinfo()
-    {
-        if (version_compare(PHP_VERSION, '8.3.0') >= 0) {
-            $magic_mime_path = __DIR__ . '/ContentType/magic-5.43.mime.mgc'; // https://github.com/Magomogo/barberry-magic-build
-        } elseif (version_compare(PHP_VERSION, '8.1.0') >= 0) {
-            $magic_mime_path = __DIR__ . '/ContentType/magic-5.40.mime.mgc';
-        } elseif (version_compare(PHP_VERSION, '8.0.0') >= 0) {
-            $magic_mime_path = __DIR__ . '/ContentType/magic-5.39.mime.mgc';
-        } elseif (version_compare(PHP_VERSION, '7.4.0') >= 0) {
-            $magic_mime_path = __DIR__ . '/ContentType/magic-5.37.mime.mgc';
-        } elseif (version_compare(PHP_VERSION, '7.3.0') >= 0) {
-            $magic_mime_path = __DIR__ . '/ContentType/magic-5.33.mime.mgc';
-        } elseif (version_compare(PHP_VERSION, '7.2.0') >= 0) {
-            $magic_mime_path = __DIR__ . '/ContentType/magic-5.31.mime.mgc';
-        } elseif (version_compare(PHP_VERSION, '7.0.0') >= 0) {
-            $magic_mime_path = __DIR__ . '/ContentType/magic-5.22.mime.mgc';
-        } else {
-            $magic_mime_path = __DIR__ . '/ContentType/magic-5.17.mime.mgc';
-        }
-
-        return new \finfo(
-            FILEINFO_MIME ^ FILEINFO_MIME_ENCODING,
-            $magic_mime_path
-        );
     }
 
     public static function byMime(string $mime): self

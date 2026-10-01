@@ -8,7 +8,7 @@ class Utf16CsvGuesser implements GuesserInterface
 {
     public function guess(string $content): ?ContentType
     {
-        return $this->isUtf16Csv($content) ? ContentType::csv() : null;
+        return $this->isUtf16Csv(substr($content, 0, 65536)) ? ContentType::csv() : null;
     }
 
     private function isUtf16Csv(string $content): bool
